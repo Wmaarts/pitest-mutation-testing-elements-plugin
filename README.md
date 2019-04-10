@@ -1,5 +1,5 @@
 # pitest-stryker-report-plugin
-A pitest plugin that maps pitest results to stryker's mutation-testing-elements
+A pitest plugin that maps [pitest](https://github.com/hcoles/pitest) results to [stryker's mutation-testing-elements](https://github.com/stryker-mutator/mutation-testing-elements).
 
 This is a WIP that is not yet published. 
 
