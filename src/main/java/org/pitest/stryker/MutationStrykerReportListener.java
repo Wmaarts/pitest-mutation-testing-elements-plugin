@@ -45,9 +45,7 @@ public class MutationStrykerReportListener implements MutationResultListener {
         + "  <script src=\"report.js\"></script>\n" + "  <script>";
     final String endHtml = "  </script>\n" + "</body>\n" + "</html>";
     try {
-      final String reportVersion = "1.0.2";
-      final String htmlReportResource =
-          "META-INF/resources/webjars/mutation-testing-elements/" + reportVersion + "/dist/mutation-test-elements.js";
+      final String htmlReportResource = "mutation-testing-elements/mutation-test-elements.js";
       final InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream(htmlReportResource);
       return startHtml + FileUtil.readToString(inputStream) + endHtml;
     } catch (final IOException e) {
