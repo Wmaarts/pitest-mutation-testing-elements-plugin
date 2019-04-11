@@ -36,7 +36,7 @@ public class MutationTestSummaryData {
   }
 
   public String getPackageName() {
-    // Name needs to be in slashes for stryker
+    // Name needs to be in slashes instead of dots for stryker
     final String packageName = this.classes.iterator().next().getName()
         .asJavaName().replace(".", "/");
     final int lastSlash = packageName.lastIndexOf('/');

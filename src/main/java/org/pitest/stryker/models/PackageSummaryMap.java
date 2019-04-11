@@ -7,14 +7,13 @@ public class PackageSummaryMap {
   private final Map<String, PackageSummaryData> packageSummaryData = new TreeMap<>();
 
   private PackageSummaryData getPackageSummaryData(final String packageName) {
-    PackageSummaryData psData;
     if (this.packageSummaryData.containsKey(packageName)) {
-      psData = this.packageSummaryData.get(packageName);
+      return this.packageSummaryData.get(packageName);
     } else {
-      psData = new PackageSummaryData(packageName);
+      final PackageSummaryData psData = new PackageSummaryData(packageName);
       this.packageSummaryData.put(packageName, psData);
+      return psData;
     }
-    return psData;
   }
 
   public void update(final String packageName,

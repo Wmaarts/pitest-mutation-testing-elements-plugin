@@ -6,11 +6,11 @@ import org.pitest.classinfo.ClassInfo;
 import org.pitest.functional.FCollection;
 import org.pitest.mutationtest.MutationResult;
 import org.pitest.mutationtest.SourceLocator;
-import org.pitest.stryker.models.MutationTestSummaryData;
-import org.pitest.stryker.models.json.*;
 import org.pitest.stryker.models.Line;
+import org.pitest.stryker.models.MutationTestSummaryData;
 import org.pitest.stryker.models.PackageSummaryData;
 import org.pitest.stryker.models.PackageSummaryMap;
+import org.pitest.stryker.models.json.*;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -23,22 +23,24 @@ public class StrykerJsonParser {
     this.sourceRoots = sourceRoots;
   }
 
-  private final Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+  private final Gson              gson              = new GsonBuilder()
+      .disableHtmlEscaping().create();
+  private final MutationIdCounter mutationIdCounter = new MutationIdCounter();
 
   public String toJson(final PackageSummaryMap packageSummaryMap)
       throws IOException {
+    mutationIdCounter.reset();
     final Map<String, StrykerFile> collectedStrykerFiles = new HashMap<>();
 
     List<PackageSummaryData> sortedPackageData = packageSummaryMap.valuesList();
     Collections.sort(sortedPackageData);
 
     for (PackageSummaryData packageData : sortedPackageData) {
-      for (MutationTestSummaryData testData : packageData
-          .getSummaryData()) {
+      for (MutationTestSummaryData testData : packageData.getSummaryData()) {
         this.addToStrykerFiles(collectedStrykerFiles, testData);
       }
     }
-    StrykerReport report = new StrykerReport(collectedStrykerFiles);
+    final StrykerReport report = new StrykerReport(collectedStrykerFiles);
     return gson.toJson(report, StrykerReport.class);
   }
 
@@ -64,14 +66,14 @@ public class StrykerJsonParser {
       final MutationTestSummaryData data) {
     final List<StrykerMutant> strykerMutants = new ArrayList<>();
     if (lines.isEmpty()) {
-      // If there are no lines, addTestSummary the mutants anyway, without source
+      // If there are no lines, add the mutants anyway, without source
       for (MutationResult mutationResult : data.getResults()) {
-        strykerMutants.add(this.mapPiMutantToStryker(mutationResult, null));
+        strykerMutants.add(this.mapToStrykerMutant(mutationResult, StrykerLocation.empty()));
       }
     } else {
       for (final Line line : lines) {
         for (MutationResult mutationResult : line.getMutations()) {
-          strykerMutants.add(this.mapPiMutantToStryker(mutationResult, line));
+          strykerMutants.add(this.mapToStrykerMutant(mutationResult, StrykerLocation.ofLine(line)));
         }
       }
     }
@@ -90,14 +92,13 @@ public class StrykerJsonParser {
     return builder.toString();
   }
 
-  private List<Line> getLines(
-      final MutationTestSummaryData summaryData) throws IOException {
+  private List<Line> getLines(final MutationTestSummaryData summaryData)
+      throws IOException {
     final String fileName = summaryData.getFileName();
     final Collection<ClassInfo> classes = summaryData.getClasses();
     final Optional<Reader> reader = findReaderForSource(classes, fileName);
     if (reader.isPresent()) {
-      final LineFactory lineFactory = new LineFactory(
-          summaryData.getResults());
+      final LineFactory lineFactory = new LineFactory(summaryData.getResults());
       return lineFactory.convert(reader.get());
     }
     return Collections.emptyList();
@@ -119,14 +120,16 @@ public class StrykerJsonParser {
     return FCollection.map(classes, a -> a.getName().asJavaName());
   }
 
-  private StrykerMutant mapPiMutantToStryker(MutationResult mutation,
-      Line line) {
-    final String mutatorName = mutation.getDetails().getMutator();
+  private StrykerMutant mapToStrykerMutant(final MutationResult mutation,
+      final StrykerLocation location) {
+    final String fullMutatorName = mutation.getDetails().getMutator();
+    // Only show the class name
+    final String mutatorName = fullMutatorName
+        .substring(fullMutatorName.lastIndexOf(".") + 1);
+
     final StrykerMutantStatus status = StrykerMutantStatus
         .fromPitestStatus(mutation.getStatus());
-    final StrykerLocation location = StrykerLocation.ofLine(line);
-    return new StrykerMutant(-1, // Will be set later
-        mutatorName.substring(mutatorName.lastIndexOf(".") + 1),
+    return new StrykerMutant(mutationIdCounter.next(), mutatorName,
         mutation.getDetails().getDescription(), location, status);
   }
 }

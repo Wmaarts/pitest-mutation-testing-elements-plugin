@@ -24,10 +24,6 @@ public class PackageSummaryData implements Comparable<PackageSummaryData> {
     }
   }
 
-  public String getPackageName() {
-    return this.packageName;
-  }
-
   public List<MutationTestSummaryData> getSummaryData() {
     return new ArrayList<>(this.fileNameToSummaryData.values());
   }

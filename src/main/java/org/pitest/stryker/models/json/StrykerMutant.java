@@ -14,19 +14,4 @@ public class StrykerMutant {
         this.location = location;
         this.status = status;
     }
-
-    public void setId(int id){
-        this.id = id;
-    }
-    
-//    public String toJson(){
-//        return "{" +
-//                " \"id\": \"" + this.id + "\"," +
-//                " \"mutatorName\": \"" + this.mutatorName + "\"," +
-//                " \"replacement\": \"" + this.replacement + "\"," +
-//                " \"location\": {" + location.toJson() +
-//                " }," +
-//                " \"status\": \"" + this.status + "\"" +
-//                "}";
-//    }
 }
