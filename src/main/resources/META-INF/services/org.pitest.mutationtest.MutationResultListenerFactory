@@ -1,1 +1,1 @@
-org.pitest.stryker.StrykerReportFactory
+org.pitest.elements.MutationTestingElementsReportFactory

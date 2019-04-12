@@ -1,4 +1,4 @@
-# pitest-stryker-report-plugin
+# pitest-mutation-testing-elements-plugin
 A pitest plugin that maps [pitest](https://github.com/hcoles/pitest) results to [stryker's mutation-testing-elements](https://github.com/stryker-mutator/mutation-testing-elements).
 
 This is a WIP that is not yet published. 
@@ -12,18 +12,16 @@ Then add the jar as dependency to the pitest plugin in pom.xml like so:
       <groupId>org.pitest</groupId>
       <artifactId>pitest-maven</artifactId>
       <version>1.4.7</version>
-      <!-- This stryker plugin -->
       <dependencies>
           <dependency>
               <groupId>org.pitest.plugins</groupId>
-              <artifactId>stryker-plugin</artifactId>
+              <artifactId>mutation-testing-elements-plugin</artifactId>
               <version>0.1.0</version>
           </dependency>
       </dependencies>
-      <!-- Tell pitest to use this plugin as output -->
       <configuration>
           <outputFormats>
-              <format>STRYKER</format>
+              <format>HTML2</format>
           </outputFormats>
       </configuration>
   </plugin>

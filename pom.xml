@@ -4,11 +4,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.pitest.plugins</groupId>
-    <artifactId>stryker-plugin</artifactId>
+    <artifactId>mutation-testing-elements-plugin</artifactId>
     <version>0.1.0</version>
-    <name>pitest-stryker-html-reporter-plugin</name>
+    <name>pitest-mutation-testing-elements-plugin</name>
     <description>
-        Write Pitest test results to Stryker report format
+        Write Pitest test results to mutation-testing-elements HTML
     </description>
 
     <dependencies>
@@ -60,13 +60,13 @@
                     <dependencies>
                         <dependency>
                             <groupId>org.pitest.plugins</groupId>
-                            <artifactId>stryker-plugin</artifactId>
+                            <artifactId>mutation-testing-elements-plugin</artifactId>
                             <version>0.1.0</version>
                         </dependency>
                     </dependencies>
                     <configuration>
                         <outputFormats>
-                            <format>STRYKER</format>
+                            <format>HTML2</format>
                         </outputFormats>
                     </configuration>
                 </plugin>
