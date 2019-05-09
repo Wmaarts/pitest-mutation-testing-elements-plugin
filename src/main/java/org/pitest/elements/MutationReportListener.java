@@ -11,6 +11,7 @@ import org.pitest.util.FileUtil;
 import org.pitest.util.Log;
 import org.pitest.util.ResultOutputStrategy;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Writer;
@@ -57,7 +58,7 @@ public class MutationReportListener implements MutationResultListener {
   private void createHtml() {
     final String content = this.loadHtml();
     final Writer writer = this.outputStrategy
-        .createWriterForFile("index.html");
+        .createWriterForFile("html2" + File.separatorChar + "index.html");
     try {
       writer.write(content);
       writer.close();
@@ -70,7 +71,7 @@ public class MutationReportListener implements MutationResultListener {
     final String content =
         "document.querySelector('mutation-test-report-app').report = " + json;
     final Writer writer = this.outputStrategy
-        .createWriterForFile("report.js");
+        .createWriterForFile("html2" + File.separatorChar + "report.js");
     try {
       writer.write(content);
       writer.close();
