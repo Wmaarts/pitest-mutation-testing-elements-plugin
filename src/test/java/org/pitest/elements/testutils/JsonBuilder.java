@@ -33,7 +33,8 @@ public class JsonBuilder {
     stringBuilder.append(fullClassName);
     stringBuilder.append(":{\"source\":\"");
     stringBuilder.append(source);
-    stringBuilder.append("\\n\",\"mutants\":[");
+    stringBuilder.append("\\n\",\"language\":\"java\"");
+    stringBuilder.append(",\"mutants\":[");
 
     if(!mutations.isEmpty()) {
       for (int i = 0; i < mutations.size() - 1; i++) {
@@ -53,7 +54,7 @@ public class JsonBuilder {
     stringBuilder.append(",\"mutatorName\":\"");
     stringBuilder.append(result.getDetails().getMutator());
     stringBuilder
-        .append("\",\"replacement\":\"\",\"location\":{\"start\":{\"line\":");
+        .append("\",\"description\":\"\",\"location\":{\"start\":{\"line\":");
     stringBuilder.append(lineNr);
     stringBuilder.append(",\"column\":1},\"end\":{\"line\":");
     stringBuilder.append(lineNr);

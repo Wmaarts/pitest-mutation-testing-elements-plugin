@@ -24,6 +24,7 @@ import org.pitest.coverage.CoverageDatabase;
 import org.pitest.mutationtest.SourceLocator;
 import org.pitest.util.ResultOutputStrategy;
 
+import java.io.File;
 import java.io.Writer;
 import java.util.Collection;
 import java.util.Collections;
@@ -68,13 +69,13 @@ public class MutationHtmlReportListenerTest {
   @Test
   public void shouldCreateAnIndexFile() {
     this.testee.runEnd();
-    verify(this.outputStrategy).createWriterForFile("index.html");
+    verify(this.outputStrategy).createWriterForFile("html2" + File.separatorChar + "index.html");
   }
 
   @Test
   public void shouldCreateAJsFile() {
     this.testee.runEnd();
-    verify(this.outputStrategy).createWriterForFile("report.js");
+    verify(this.outputStrategy).createWriterForFile("html2"+ File.separatorChar + "report.js");
   }
 
 }
