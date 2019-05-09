@@ -3,14 +3,14 @@ package org.pitest.elements.utils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.pitest.classinfo.ClassInfo;
-import org.pitest.functional.FCollection;
-import org.pitest.mutationtest.MutationResult;
-import org.pitest.mutationtest.SourceLocator;
 import org.pitest.elements.models.Line;
 import org.pitest.elements.models.MutationTestSummaryData;
 import org.pitest.elements.models.PackageSummaryData;
 import org.pitest.elements.models.PackageSummaryMap;
 import org.pitest.elements.models.json.*;
+import org.pitest.functional.FCollection;
+import org.pitest.mutationtest.MutationResult;
+import org.pitest.mutationtest.SourceLocator;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -23,8 +23,8 @@ public class JsonParser {
     this.sourceRoots = sourceRoots;
   }
 
-  private final Gson              gson              = new GsonBuilder()
-      .disableHtmlEscaping().create();
+  private final Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+
   private final MutationIdCounter mutationIdCounter = new MutationIdCounter();
 
   public String toJson(final PackageSummaryMap packageSummaryMap)
@@ -44,8 +44,7 @@ public class JsonParser {
     return gson.toJson(report, JsonReport.class);
   }
 
-  private void addToJsonFiles(
-      final Map<String, JsonFile> collectedJsonFiles,
+  private void addToJsonFiles(final Map<String, JsonFile> collectedJsonFiles,
       final MutationTestSummaryData data) throws IOException {
     // Step 1: Map mutations to lines
     final List<Line> lines = this.getLines(data);
@@ -68,13 +67,14 @@ public class JsonParser {
     if (lines.isEmpty()) {
       // If there are no lines, add the mutants anyway, without source
       for (MutationResult mutationResult : data.getResults()) {
-        jsonMutants.add(this.mapToJsonMutant(mutationResult, JsonLocation.empty()));
+        jsonMutants
+            .add(this.mapToJsonMutant(mutationResult, JsonLocation.empty()));
       }
     } else {
       for (final Line line : lines) {
         for (MutationResult mutationResult : line.getMutations()) {
-          jsonMutants.add(this.mapToJsonMutant(mutationResult, JsonLocation
-              .ofLine(line)));
+          jsonMutants.add(
+              this.mapToJsonMutant(mutationResult, JsonLocation.ofLine(line)));
         }
       }
     }

@@ -53,12 +53,27 @@ public class JsonBuilder {
     stringBuilder.append(mutantCounter++);
     stringBuilder.append(",\"mutatorName\":\"");
     stringBuilder.append(result.getDetails().getMutator());
-    stringBuilder
-        .append("\",\"description\":\"\",\"location\":{\"start\":{\"line\":");
-    stringBuilder.append(lineNr);
-    stringBuilder.append(",\"column\":1},\"end\":{\"line\":");
-    stringBuilder.append(lineNr);
-    stringBuilder.append(",\"column\":7}},\"status\":\"NoCoverage\"}");
+    stringBuilder.append("\",\"replacement\":\"\",\"location\":");
+    stringBuilder.append(locationToJson(lineNr));
+    stringBuilder.append(",\"status\":\"NoCoverage\"}");
+  }
+
+  private String locationToJson(final int lineNr){
+    return locationToJson(lineNr, 1, 7);
+  }
+
+  public static String locationToJson(final int lineNr, final int startColumn, final int endColumn){
+    final StringBuilder locationBuilder = new StringBuilder();
+    locationBuilder.append("{\"start\":{\"line\":");
+    locationBuilder.append(lineNr);
+    locationBuilder.append(",\"column\":");
+    locationBuilder.append(startColumn);
+    locationBuilder.append("},\"end\":{\"line\":");
+    locationBuilder.append(lineNr);
+    locationBuilder.append(",\"column\":");
+    locationBuilder.append(endColumn);
+    locationBuilder.append("}}");
+    return locationBuilder.toString();
   }
 
   public String build() {

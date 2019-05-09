@@ -33,11 +33,20 @@ public class JsonParserTest {
   }
 
   @Test
+  public void shouldParseTwiceCorrectly() throws IOException {
+    final JsonParser testee = createTestee();
+    testee.toJson(createPackageSummaryMap());
+    final String json = testee.toJson(createPackageSummaryMap());
+    final String expected = new JsonBuilder().build();
+    assertEquals(expected, json);
+  }
+
+  @Test
   public void shouldParseAFileToJson() throws IOException {
     final String fileName = "Foo";
     final JsonParser testee = createTestee();
     final String json = testee
-        .toJson(createPackageSummaryMap(Arrays.asList(fileName + ".java")));
+        .toJson(createPackageSummaryMap(Collections.singletonList(fileName + ".java")));
     final String expected = new JsonBuilder().addFile(fileName).build();
     assertEquals(expected, json);
   }
