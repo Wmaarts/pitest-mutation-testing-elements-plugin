@@ -1,8 +1,8 @@
 # pitest-mutation-testing-elements-plugin
-A pitest plugin that maps [pitest](https://github.com/hcoles/pitest) results to [stryker's mutation-testing-elements](https://github.com/stryker-mutator/mutation-testing-elements).
+A pitest plugin that maps [pitest](https://github.com/hcoles/pitest) results to [stryker's mutation-testing-elements](https://github.com/stryker-mutator/mutation-testing-elements/tree/master/packages/mutation-testing-elements#mutation-testing-elements).
 
-### How to use
-* Add the dependency to the pitest maven plugin
+### How to use 💁
+* Add the dependency to the pitest maven plugin 
 * Configure the outputFormat to be `HTML2` 
 
 Like so:
@@ -26,8 +26,13 @@ Like so:
     </plugin>
 ```
 
-Run [like you would normally run pitest](http://pitest.org/quickstart/maven/):
+Run [like you would normally run pitest](http://pitest.org/quickstart/maven/): ▶
 
 ```shell
 mvn org.pitest:pitest-maven:mutationCoverage
 ```
+
+## Preview 🔮
+
+This is a result of pitest run on this plugin. (More previews [here](https://github.com/stryker-mutator/mutation-testing-elements/tree/master/packages/mutation-testing-elements#mutation-testing-elements))
+![preview](https://i.imgur.com/tKp346S.png)
