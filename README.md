@@ -1,3 +1,5 @@
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.wmaarts/pitest-mutation-testing-elements-plugin.svg?color=brightgreen&label=Maven%20Central)](https://search.maven.org/artifact/io.github.wmaarts/pitest-mutation-testing-elements-plugin)
+
 # pitest-mutation-testing-elements-plugin
 A pitest plugin that maps [pitest](https://github.com/hcoles/pitest) results to [stryker's mutation-testing-elements](https://github.com/stryker-mutator/mutation-testing-elements/tree/master/packages/mutation-testing-elements#mutation-testing-elements).
 
