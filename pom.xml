@@ -3,13 +3,53 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.pitest.plugins</groupId>
-    <artifactId>mutation-testing-elements-plugin</artifactId>
-    <version>0.1.0</version>
+    <groupId>io.github.wmaarts</groupId>
+    <artifactId>pitest-mutation-testing-elements-plugin</artifactId>
+    <version>0.2.0-SNAPSHOT</version>
     <name>pitest-mutation-testing-elements-plugin</name>
     <description>
-        Write Pitest test results to mutation-testing-elements HTML
+        Write Pitest test results to mutation-testing-elements HTML reporter
     </description>
+    <url>https://github.com/Wmaarts</url>
+    <inceptionYear>2019</inceptionYear>
+
+    <!-- Project Metadata -->
+    <licenses>
+        <license>
+            <name>Apache License 2.0</name>
+            <url>https://github.com/Wmaarts/pitest-mutation-testing-elements-plugin/blob/master/LICENSE</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <name>wmaarts</name>
+            <id>Wouter</id>
+            <url>https://github.com/wmaarts</url>
+        </developer>
+    </developers>
+    <issueManagement>
+        <system>GitHub</system>
+        <url>https://github.com/Wmaarts/pitest-mutation-testing-elements-plugin/issues</url>
+    </issueManagement>
+    <scm>
+        <connection>scm:git:https://github.com/Wmaarts/pitest-mutation-testing-elements-plugin.git</connection>
+        <developerConnection>scm:git:https://github.com/Wmaarts/pitest-mutation-testing-elements-plugin.git</developerConnection>
+        <url>https://github.com/Wmaarts/pitest-mutation-testing-elements-plugin</url>
+        <tag>HEAD</tag>
+    </scm>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
+    <!-- Project Settings -->
 
     <dependencies>
         <dependency>
@@ -59,8 +99,8 @@
                     <version>1.4.7</version>
                     <dependencies>
                         <dependency>
-                            <groupId>org.pitest.plugins</groupId>
-                            <artifactId>mutation-testing-elements-plugin</artifactId>
+                            <groupId>io.github.wmaarts</groupId>
+                            <artifactId>pitest-mutation-testing-elements-plugin</artifactId>
                             <version>0.1.0</version>
                         </dependency>
                     </dependencies>
@@ -82,4 +122,92 @@
             </plugins>
         </pluginManagement>
     </build>
+
+    <properties>
+        <encoding>UTF-8</encoding>
+        <!-- Release versions-->
+        <maven-deploy-plugin.version>2.8.2</maven-deploy-plugin.version>
+        <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
+        <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
+        <maven-javadoc-plugin.version>3.1.0</maven-javadoc-plugin.version>
+        <maven-source-plugin.version>3.0.1</maven-source-plugin.version>
+    </properties>
+
+    <profiles>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>${maven-javadoc-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>${maven-source-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>${maven-gpg-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                                <configuration>
+                                    <keyname>pitest-mutation-testing-elements-plugin bot</keyname>
+                                    <passphrase>${env.PGP_PASSPHRASE}</passphrase>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>${nexus-staging-maven-plugin.version}</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>ossrh</serverId>
+                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-deploy-plugin</artifactId>
+                        <version>${maven-deploy-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>default-deploy</id>
+                                <phase>deploy</phase>
+                                <goals>
+                                    <goal>deploy</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
