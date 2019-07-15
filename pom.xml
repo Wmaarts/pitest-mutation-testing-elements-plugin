@@ -55,7 +55,7 @@
         <dependency>
             <groupId>org.pitest</groupId>
             <artifactId>pitest-entry</artifactId>
-            <version>1.4.7</version>
+            <version>1.4.9</version>
         </dependency>
 
         <dependency>
@@ -66,7 +66,7 @@
         <dependency>
             <groupId>io.stryker-mutator</groupId>
             <artifactId>mutation-testing-elements</artifactId>
-            <version>1.0.6</version>
+            <version>1.1.1</version>
         </dependency>
 
         <!--Test dependencies-->
@@ -96,7 +96,7 @@
                 <plugin>
                     <groupId>org.pitest</groupId>
                     <artifactId>pitest-maven</artifactId>
-                    <version>1.4.7</version>
+                    <version>1.4.9</version>
                     <dependencies>
                         <dependency>
                             <groupId>io.github.wmaarts</groupId>

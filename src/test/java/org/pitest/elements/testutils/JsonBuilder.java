@@ -53,7 +53,7 @@ public class JsonBuilder {
     stringBuilder.append(mutantCounter++);
     stringBuilder.append(",\"mutatorName\":\"");
     stringBuilder.append(result.getDetails().getMutator());
-    stringBuilder.append("\",\"replacement\":\"\",\"location\":");
+    stringBuilder.append("\",\"description\":\"\",\"location\":");
     stringBuilder.append(locationToJson(lineNr));
     stringBuilder.append(",\"status\":\"NoCoverage\"}");
   }
