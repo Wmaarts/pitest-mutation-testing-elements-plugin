@@ -15,7 +15,7 @@ jobs:
         with:
           java-version: ${{ matrix.java-version }}
       - name: Run tests
-        run: mvn test -B
+        run: mvn verify -B
   mutation-testing:
     name: Mutation testing
     runs-on: ubuntu-latest
