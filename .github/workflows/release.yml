@@ -18,6 +18,9 @@ jobs:
       - uses: olafurpg/setup-gpg@v2
       - name: Import GPG secret
         run: echo $PGP_SECRET | base64 --decode | gpg --import
+        env:
+          PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
+          PGP_SECRET: ${{ secrets.PGP_SECRET }}
       - name: Publish release
       # GITHUB_REF
         run: |
@@ -25,6 +28,5 @@ jobs:
           mvn --settings .github/settings.xml deploy -Drevision="${REVISION}" -P release -B
         env:
           PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
-          PGP_SECRET: ${{ secrets.PGP_SECRET }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
