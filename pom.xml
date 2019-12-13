@@ -65,7 +65,7 @@
         <dependency>
             <groupId>io.stryker-mutator</groupId>
             <artifactId>mutation-testing-elements</artifactId>
-            <version>1.2.0</version>
+            <version>1.2.3</version>
         </dependency>
 
         <!--Test dependencies-->
@@ -99,7 +99,7 @@
                     <dependency>
                         <groupId>io.github.wmaarts</groupId>
                         <artifactId>pitest-mutation-testing-elements-plugin</artifactId>
-                        <version>0.1.0</version>
+                        <version>0.2.0</version>
                     </dependency>
                 </dependencies>
                 <configuration>
