@@ -25,6 +25,7 @@ jobs:
       # GITHUB_REF
         run: |
           export REVISION="${GITHUB_REF:11}"
+          mvn --settings .github/settings.xml versions:set -DnewVersion="${REVISION}" -DgenerateBackupPoms=false -P release -B
           mvn --settings .github/settings.xml deploy -Drevision="${REVISION}" -P release -B
         env:
           PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
