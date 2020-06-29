@@ -49,9 +49,9 @@ public class JsonBuilder {
 
   private void addMutant(final MutationResult result) {
     final int lineNr = result.getDetails().getLineNumber();
-    stringBuilder.append("{\"id\":");
+    stringBuilder.append("{\"id\":\"");
     stringBuilder.append(mutantCounter++);
-    stringBuilder.append(",\"mutatorName\":\"");
+    stringBuilder.append("\",\"mutatorName\":\"");
     stringBuilder.append(result.getDetails().getMutator());
     stringBuilder.append("\",\"description\":\"\",\"location\":");
     stringBuilder.append(locationToJson(lineNr));

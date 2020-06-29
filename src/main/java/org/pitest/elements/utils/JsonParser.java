@@ -130,7 +130,7 @@ public class JsonParser {
 
     final JsonMutantStatus status = JsonMutantStatus
         .fromPitestStatus(mutation.getStatus());
-    return new JsonMutant(mutationIdCounter.next(), mutatorName,
+    return new JsonMutant(Integer.toString(mutationIdCounter.next()), mutatorName,
         mutation.getDetails().getDescription(), location, status);
   }
 }
