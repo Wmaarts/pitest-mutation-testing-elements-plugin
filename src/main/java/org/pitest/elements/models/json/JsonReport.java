@@ -3,7 +3,7 @@ package org.pitest.elements.models.json;
 import java.util.Map;
 
 public class JsonReport {
-  private int                   schemaVersion = 1;
+  private String                schemaVersion = "1";
   private JsonThresholds        thresholds    = new JsonThresholds(60, 80);
   private Map<String, JsonFile> files;
 
