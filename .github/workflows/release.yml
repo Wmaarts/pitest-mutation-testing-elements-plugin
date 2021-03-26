@@ -15,7 +15,6 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: '1.8'
-      - uses: olafurpg/setup-gpg@v2
       - name: Import GPG secret
         run: echo $PGP_SECRET | base64 --decode | gpg --import
         env:
