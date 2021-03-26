@@ -1,13 +1,13 @@
 package org.pitest.elements.utils;
 
-import org.junit.Test;
+import org.junit.jupiter.api.*;
 import org.pitest.elements.models.MutationTestSummaryData;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MutationTestSummaryDataFileNameComparatorTest {
 

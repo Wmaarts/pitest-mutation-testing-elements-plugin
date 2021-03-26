@@ -1,6 +1,6 @@
 package org.pitest.elements.models;
 
-import org.junit.Test;
+import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
 import org.pitest.classinfo.ClassInfo;
 import org.pitest.mutationtest.MutationResult;
@@ -8,7 +8,7 @@ import org.pitest.mutationtest.MutationResult;
 import java.util.Collection;
 import java.util.Collections;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MutationTestSummaryDataTest {
 

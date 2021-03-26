@@ -1,6 +1,6 @@
 package org.pitest.elements.utils;
 
-import org.junit.Test;
+import org.junit.jupiter.api.*;
 import org.pitest.mutationtest.MutationResult;
 import org.pitest.elements.models.Line;
 import org.pitest.elements.testutils.MutationResultBuilder;
@@ -10,7 +10,7 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.util.*;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class LineFactoryTest {
 
