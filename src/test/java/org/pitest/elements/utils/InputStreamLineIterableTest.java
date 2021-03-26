@@ -1,7 +1,6 @@
 package org.pitest.elements.utils;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.*;
 import org.pitest.functional.FCollection;
 
 import java.io.StringReader;
@@ -12,7 +11,7 @@ public class InputStreamLineIterableTest {
 
   private InputStreamLineIterable testee;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     final StringReader input = new StringReader("1\n2\n3\n");
     this.testee = new InputStreamLineIterable(input);

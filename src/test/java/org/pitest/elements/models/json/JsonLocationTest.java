@@ -2,13 +2,13 @@ package org.pitest.elements.models.json;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.junit.Test;
+import org.junit.jupiter.api.*;
 import org.pitest.elements.models.Line;
 import org.pitest.elements.testutils.JsonBuilder;
 
 import java.util.Collections;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class JsonLocationTest {
 

@@ -2,7 +2,7 @@ package org.pitest.elements.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.junit.Test;
+import org.junit.jupiter.api.*;
 import org.pitest.classinfo.ClassInfo;
 import org.pitest.classinfo.ClassName;
 import org.pitest.classinfo.MockClassInfoBuilder;
@@ -18,7 +18,7 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.util.*;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class JsonParserTest {
 

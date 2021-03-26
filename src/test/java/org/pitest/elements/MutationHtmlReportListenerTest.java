@@ -1,7 +1,6 @@
 package org.pitest.elements;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.*;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.pitest.classinfo.ClassInfo;
@@ -33,12 +32,12 @@ public class MutationHtmlReportListenerTest {
   private SourceLocator sourceLocator;
 
   @Mock
-  private Writer                     writer;
+  private Writer writer;
 
   @Mock
   private ClassInfo classInfo;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     MockitoAnnotations.initMocks(this);
 
