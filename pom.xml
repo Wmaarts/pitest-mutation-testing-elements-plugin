@@ -184,6 +184,13 @@
                                 <configuration>
                                     <keyname>pitest-mutation-testing-elements-plugin bot</keyname>
                                     <passphrase>${env.PGP_PASSPHRASE}</passphrase>
+				    <!-- For gpg2 -->
+                                    <useAgent>true</useAgent>
+                                    <gpgArguments>
+                                        <arg>--batch</arg>
+                                        <arg>--pinentry-mode</arg>
+                                        <arg>loopback</arg>
+                                    </gpgArguments>
                                 </configuration>
                             </execution>
                         </executions>
