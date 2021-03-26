@@ -7,7 +7,7 @@ jobs:
     name: Test on JDK ${{matrix.java-version}}
     strategy:
       matrix:
-        java-version: ["1.8", "11", "13"]
+        java-version: ["1.8", "11", "16"]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1

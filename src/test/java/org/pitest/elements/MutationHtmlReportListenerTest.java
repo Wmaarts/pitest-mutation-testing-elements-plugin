@@ -12,10 +12,10 @@ import org.pitest.util.ResultOutputStrategy;
 
 import java.io.File;
 import java.io.Writer;
-import java.util.Collection;
 import java.util.Collections;
 
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.anyCollection;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -40,12 +40,12 @@ public class MutationHtmlReportListenerTest {
 
   @Before
   public void setUp() {
-    MockitoAnnotations.initMocks(this);
+    MockitoAnnotations.openMocks(this);
 
     when(this.outputStrategy.createWriterForFile(any(String.class)))
         .thenReturn(this.writer);
     when(this.classInfo.getName()).thenReturn(ClassName.fromString("foo"));
-    when(this.coverageDb.getClassInfo(any(Collection.class))).thenReturn(
+    when(this.coverageDb.getClassInfo(anyCollection())).thenReturn(
         Collections.singleton(this.classInfo));
 
     this.testee = new MutationReportListener(this.coverageDb,
