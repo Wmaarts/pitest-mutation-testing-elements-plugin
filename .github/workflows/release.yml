@@ -16,7 +16,7 @@ jobs:
         with:
           java-version: '1.8'
       - name: Import GPG secret
-        run: echo $PGP_SECRET | base64 --decode | gpg --import
+        run: echo $PGP_SECRET | base64 --decode | gpg --batch --import
         env:
           PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
           PGP_SECRET: ${{ secrets.PGP_SECRET }}
