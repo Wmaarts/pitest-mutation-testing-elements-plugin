@@ -19,7 +19,7 @@ jobs:
       - run: git fetch --depth=1 origin +refs/tags/*:refs/tags/*
       - uses: actions/setup-java@v2.3.0
         with:
-          java-version: '1.8'
+          java-version: '8'
           distribution: 'temurin'
           cache: 'maven'
       - name: Import GPG secret
