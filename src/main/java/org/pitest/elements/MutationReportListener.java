@@ -58,7 +58,7 @@ public class MutationReportListener implements MutationResultListener {
   }
 
   private String loadMutationTestElementsJs() throws IOException {
-    final String htmlReportResource = "mutation-testing-elements/mutation-test-elements.js";
+    final String htmlReportResource = "elements/mutation-test-elements.js";
     return FileUtil.readToString(this.getClass().getClassLoader().getResourceAsStream(htmlReportResource));
   }
 
