@@ -14,6 +14,8 @@ jobs:
       - uses: actions/setup-java@v2.3.0
         with:
           java-version: ${{ matrix.java-version }}
+          distribution: 'temurin'
+          cache: 'maven'
       - name: Run tests
         run: mvn verify -B
   mutation-testing:
@@ -24,5 +26,7 @@ jobs:
       - uses: actions/setup-java@v2.3.0
         with:
           java-version: '11'
+          distribution: 'temurin'
+          cache: 'maven'
       - name: Run mutation testing
         run: mvn test-compile org.pitest:pitest-maven:mutationCoverage -B
