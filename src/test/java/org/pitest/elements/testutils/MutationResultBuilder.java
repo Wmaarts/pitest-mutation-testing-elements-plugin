@@ -5,7 +5,6 @@ import org.pitest.mutationtest.DetectionStatus;
 import org.pitest.mutationtest.MutationResult;
 import org.pitest.mutationtest.MutationStatusTestPair;
 import org.pitest.mutationtest.engine.Location;
-import org.pitest.mutationtest.engine.MethodName;
 import org.pitest.mutationtest.engine.MutationDetails;
 import org.pitest.mutationtest.engine.MutationIdentifier;
 
@@ -22,7 +21,7 @@ public class MutationResultBuilder {
     return this;
   }
   public MutationResult build() {
-    final Location location = new Location(ClassName.fromString(className), MethodName.fromString(""), "constructor");
+    final Location location = new Location(ClassName.fromString(className), "", "constructor");
     final MutationIdentifier id = new MutationIdentifier(location, lineNumber,
         "id + " + lineNumber);
     final MutationDetails details = new MutationDetails(id, className + ".java", "",
