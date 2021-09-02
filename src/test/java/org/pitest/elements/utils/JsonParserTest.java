@@ -1,7 +1,5 @@
 package org.pitest.elements.utils;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import org.junit.jupiter.api.*;
 import org.pitest.classinfo.ClassInfo;
 import org.pitest.classinfo.ClassName;
@@ -21,8 +19,6 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class JsonParserTest {
-
-  private final Gson gson = new GsonBuilder().disableHtmlEscaping().create();
 
   @Test
   public void shouldParseToSkeletonOfJsonModel() throws IOException {
