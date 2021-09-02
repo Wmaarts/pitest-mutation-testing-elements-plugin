@@ -6,3 +6,10 @@
 *.iws
 *.iml
 *.ipr
+
+
+### VS Code ###
+/.classpath
+/.project
+.settings/
+.vscode/settings.json
