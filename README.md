@@ -69,5 +69,5 @@ pitest {
 
 ## Preview 🔮
 
-This is a result of pitest run on this plugin. (More previews [here](https://github.com/stryker-mutator/mutation-testing-elements/tree/master/packages/mutation-testing-elements#mutation-testing-elements))
+This is a result of pitest run on this plugin. (More previews [here](https://github.com/stryker-mutator/mutation-testing-elements/tree/master/packages/elements#mutation-testing-elements))
 ![preview](https://i.imgur.com/tKp346S.png)
