@@ -1,15 +1,14 @@
 package org.pitest.elements.utils;
 
 import org.junit.jupiter.api.*;
-import org.pitest.classinfo.ClassInfo;
-import org.pitest.classinfo.ClassName;
-import org.pitest.classinfo.MockClassInfoBuilder;
+import org.pitest.coverage.ClassLines;
 import org.pitest.mutationtest.MutationResult;
 import org.pitest.mutationtest.SourceLocator;
 import org.pitest.elements.models.MutationTestSummaryData;
 import org.pitest.elements.models.PackageSummaryMap;
 import org.pitest.elements.testutils.MutationResultBuilder;
 import org.pitest.elements.testutils.JsonBuilder;
+import org.pitest.elements.testutils.MockClassLines;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -73,9 +72,9 @@ public class JsonParserTest {
       final Map<String, List<MutationResult>> mutantsByFile) {
     final PackageSummaryMap map = new PackageSummaryMap();
     for (final String fileName : mutantsByFile.keySet()) {
-      final ClassInfo classInfo = new MockClassInfo(fileName);
+      final ClassLines classLines = MockClassLines.create(fileName);
       final MutationTestSummaryData data = new MutationTestSummaryData(fileName,
-          mutantsByFile.get(fileName), Collections.singletonList(classInfo));
+          mutantsByFile.get(fileName), Collections.singletonList(classLines));
       map.update("package", data);
     }
     return map;
@@ -84,9 +83,9 @@ public class JsonParserTest {
   private PackageSummaryMap createPackageSummaryMap(List<String> files) {
     final PackageSummaryMap map = new PackageSummaryMap();
     for (String fileName : files) {
-      final ClassInfo classInfo = new MockClassInfo(fileName);
+      final ClassLines classLines = MockClassLines.create(fileName);
       final MutationTestSummaryData data = new MutationTestSummaryData(fileName,
-          Collections.emptyList(), Collections.singletonList(classInfo));
+          Collections.emptyList(), Collections.singletonList(classLines));
       map.update("package", data);
     }
     return map;
@@ -133,19 +132,5 @@ class MockSourceLocator implements SourceLocator {
   @Override
   public Optional<Reader> locate(Collection<String> collection, String s) {
     return Optional.of(new StringReader(source));
-  }
-}
-
-class MockClassInfo extends ClassInfo {
-  final private String fileName;
-
-  MockClassInfo(final String fileName) {
-    super(null, null, new MockClassInfoBuilder());
-    this.fileName = fileName;
-  }
-
-  @Override
-  public ClassName getName() {
-    return ClassName.fromString("package." + fileName);
   }
 }

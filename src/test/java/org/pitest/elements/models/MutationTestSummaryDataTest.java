@@ -1,8 +1,8 @@
 package org.pitest.elements.models;
 
 import org.junit.jupiter.api.*;
-import org.mockito.Mockito;
-import org.pitest.classinfo.ClassInfo;
+import org.pitest.coverage.ClassLines;
+import org.pitest.elements.testutils.MockClassLines;
 import org.pitest.mutationtest.MutationResult;
 
 import java.util.Collection;
@@ -19,49 +19,49 @@ public class MutationTestSummaryDataTest {
   @Test
   public void shouldAddTestSummaryProperly() {
     // Assemble
-    final ClassInfo clazz = makeClass();
-    this.testee = buildSummaryData(clazz);
-    int nrOfClasses = 5;
+    final ClassLines classLines = makeClassLines();
+    this.testee = buildSummaryData(classLines);
+    int nrOfClassLines = 5;
     int nrOfResults = 10;
 
     // Act
     this.testee
-        .addTestSummary(buildSummaryDataMutators(nrOfClasses, nrOfResults));
+        .addTestSummary(buildSummaryDataMutators(nrOfClassLines, nrOfResults));
 
     // Assert
-    assertEquals(2, testee.getClasses().size());
+    assertEquals(1, testee.getClassLines().size());
     assertEquals(nrOfResults, testee.getResults().size());
   }
 
-  private ClassInfo makeClass() {
-    return Mockito.mock(ClassInfo.class);
+  private ClassLines makeClassLines() {
+    return MockClassLines.create(FILE_NAME);
   }
 
   private MutationResult makeResult() {
     return new MutationResult(null, null);
   }
 
-  private MutationTestSummaryData buildSummaryData(final ClassInfo clazz) {
-    final Collection<ClassInfo> classes = Collections.singletonList(clazz);
+  private MutationTestSummaryData buildSummaryData(final ClassLines classLines) {
+    final Collection<ClassLines> classLiness = Collections.singletonList(classLines);
     final Collection<MutationResult> results = Collections.emptyList();
     final Collection<String> mutators = Collections.emptyList();
-    return new MutationTestSummaryData(FILE_NAME, results, classes);
+    return new MutationTestSummaryData(FILE_NAME, results, classLiness);
   }
 
   private MutationTestSummaryData buildSummaryDataMutators() {
-    final Collection<ClassInfo> classes = Collections.emptyList();
+    final Collection<ClassLines> classLines = Collections.emptyList();
     final Collection<MutationResult> results = Collections.emptyList();
-    return new MutationTestSummaryData(FILE_NAME, results, classes);
+    return new MutationTestSummaryData(FILE_NAME, results, classLines);
   }
 
-  private MutationTestSummaryData buildSummaryDataMutators(int nrOfClasses,
+  private MutationTestSummaryData buildSummaryDataMutators(int nrOfClassLines,
       int nrOfResults) {
-    final Collection<ClassInfo> classes = Collections
-        .nCopies(nrOfClasses, makeClass());
+    final Collection<ClassLines> classLines = Collections
+        .nCopies(nrOfClassLines, makeClassLines());
     final Collection<MutationResult> results = Collections
         .nCopies(nrOfResults, makeResult());
 
-    return new MutationTestSummaryData(FILE_NAME, results, classes);
+    return new MutationTestSummaryData(FILE_NAME, results, classLines);
   }
 
 }

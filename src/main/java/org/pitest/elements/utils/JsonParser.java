@@ -2,7 +2,7 @@ package org.pitest.elements.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.pitest.classinfo.ClassInfo;
+import org.pitest.coverage.ClassLines;
 import org.pitest.elements.models.Line;
 import org.pitest.elements.models.MutationTestSummaryData;
 import org.pitest.elements.models.PackageSummaryData;
@@ -96,8 +96,8 @@ public class JsonParser {
   private List<Line> getLines(final MutationTestSummaryData summaryData)
       throws IOException {
     final String fileName = summaryData.getFileName();
-    final Collection<ClassInfo> classes = summaryData.getClasses();
-    final Optional<Reader> reader = findReaderForSource(classes, fileName);
+    final Collection<ClassLines> classLines = summaryData.getClassLines();
+    final Optional<Reader> reader = findReaderForSource(classLines, fileName);
     if (reader.isPresent()) {
       final LineFactory lineFactory = new LineFactory(summaryData.getResults());
       return lineFactory.convert(reader.get());
@@ -106,19 +106,19 @@ public class JsonParser {
   }
 
   private Optional<Reader> findReaderForSource(
-      final Collection<ClassInfo> classes, final String fileName) {
+      final Collection<ClassLines> classLines, final String fileName) {
     for (final SourceLocator each : this.sourceRoots) {
       final Optional<Reader> maybe = each
-          .locate(this.classInfoToNames(classes), fileName);
+          .locate(this.classLinesToNames(classLines), fileName);
       if (maybe.isPresent())
         return maybe;
     }
     return Optional.empty();
   }
 
-  private Collection<String> classInfoToNames(
-      final Collection<ClassInfo> classes) {
-    return FCollection.map(classes, a -> a.getName().asJavaName());
+  private Collection<String> classLinesToNames(
+      final Collection<ClassLines> classLines) {
+    return FCollection.map(classLines, a -> a.name().asJavaName());
   }
 
   private JsonMutant mapToJsonMutant(final MutationResult mutation,
