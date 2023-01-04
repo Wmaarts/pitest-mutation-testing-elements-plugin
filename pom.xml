@@ -155,7 +155,7 @@
     <properties>
         <encoding>UTF-8</encoding>
         <revision>MASTER-SNAPSHOT</revision>
-        <pitest-plugin.version>1.10.3</pitest-plugin.version>
+        <pitest-plugin.version>1.10.4</pitest-plugin.version>
     </properties>
 
     <profiles>
