@@ -5,13 +5,13 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.pitest.coverage.ClassLines;
 import org.pitest.coverage.CoverageDatabase;
+import org.pitest.coverage.ReportCoverage;
 import org.pitest.elements.testutils.MockClassLines;
 import org.pitest.mutationtest.SourceLocator;
 import org.pitest.util.ResultOutputStrategy;
 
 import java.io.File;
 import java.io.Writer;
-import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -22,7 +22,7 @@ public class MutationHtmlReportListenerTest {
   private MutationReportListener testee;
 
   @Mock
-  private CoverageDatabase coverageDb;
+  private ReportCoverage coverage;
 
   @Mock
   private ResultOutputStrategy outputStrategy;
@@ -40,10 +40,10 @@ public class MutationHtmlReportListenerTest {
     when(this.outputStrategy.createWriterForFile(any(String.class)))
     .thenReturn(this.writer);
     ClassLines classLines = MockClassLines.create(("foo"));
-    when(this.coverageDb.getCoveredLinesForClass(any())).thenReturn(
-        Optional.of(classLines));
+    when(this.coverage.getCodeLinesForClass(any())).thenReturn(
+        classLines);
 
-    this.testee = new MutationReportListener(this.coverageDb,
+    this.testee = new MutationReportListener(this.coverage,
         this.outputStrategy, this.sourceLocator);
   }
 

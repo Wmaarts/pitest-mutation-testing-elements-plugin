@@ -1,7 +1,7 @@
 package org.pitest.elements;
 
 import org.pitest.coverage.ClassLines;
-import org.pitest.coverage.CoverageDatabase;
+import org.pitest.coverage.ReportCoverage;
 import org.pitest.mutationtest.ClassMutationResults;
 import org.pitest.mutationtest.MutationResultListener;
 import org.pitest.mutationtest.SourceLocator;
@@ -25,7 +25,7 @@ public class MutationReportListener implements MutationResultListener {
 
   private final JsonParser jsonParser;
 
-  private final CoverageDatabase  coverage;
+  private final ReportCoverage  coverage;
   private final PackageSummaryMap packageSummaryData = new PackageSummaryMap();
 
   private static final String HTML_PAGE = "<!DOCTYPE html>\n" + "<html lang=\"en\">\n"
@@ -51,7 +51,7 @@ public class MutationReportListener implements MutationResultListener {
       + "</body>\n"
       + "</html>";
 
-  public MutationReportListener(final CoverageDatabase coverage,
+  public MutationReportListener(final ReportCoverage coverage,
       final ResultOutputStrategy outputStrategy, final SourceLocator... locators) {
     this.coverage = coverage;
     this.outputStrategy = outputStrategy;
@@ -102,11 +102,9 @@ public class MutationReportListener implements MutationResultListener {
   }
 
   private MutationTestSummaryData createSummaryData(
-      final CoverageDatabase coverage, final ClassMutationResults data) {
-    Set<ClassLines> classLines = coverage
-        .getCoveredLinesForClass(data.getMutatedClass())
-        .map(Collections::singleton)
-        .orElseGet(Collections::emptySet);
+      final ReportCoverage coverage, final ClassMutationResults data) {
+    Set<ClassLines> classLines = Collections.singleton(coverage
+        .getCodeLinesForClass(data.getMutatedClass()));
     return new MutationTestSummaryData(data.getFileName(), data.getMutations(), classLines);
   }
 
