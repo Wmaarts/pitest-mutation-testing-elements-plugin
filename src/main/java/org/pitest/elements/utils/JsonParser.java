@@ -2,6 +2,9 @@ package org.pitest.elements.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import java.io.IOException;
+import java.io.Reader;
+import java.util.*;
 import org.pitest.coverage.ClassLines;
 import org.pitest.elements.models.Line;
 import org.pitest.elements.models.MutationTestSummaryData;
@@ -11,10 +14,6 @@ import org.pitest.elements.models.json.*;
 import org.pitest.functional.FCollection;
 import org.pitest.mutationtest.MutationResult;
 import org.pitest.mutationtest.SourceLocator;
-
-import java.io.IOException;
-import java.io.Reader;
-import java.util.*;
 
 public class JsonParser {
   private final Collection<SourceLocator> sourceRoots;
@@ -27,8 +26,7 @@ public class JsonParser {
 
   private final MutationIdCounter mutationIdCounter = new MutationIdCounter();
 
-  public String toJson(final PackageSummaryMap packageSummaryMap)
-      throws IOException {
+  public String toJson(final PackageSummaryMap packageSummaryMap) throws IOException {
     mutationIdCounter.reset();
     final Map<String, JsonFile> collectedJsonFiles = new HashMap<>();
 
@@ -44,8 +42,9 @@ public class JsonParser {
     return gson.toJson(report, JsonReport.class);
   }
 
-  private void addToJsonFiles(final Map<String, JsonFile> collectedJsonFiles,
-      final MutationTestSummaryData data) throws IOException {
+  private void addToJsonFiles(
+      final Map<String, JsonFile> collectedJsonFiles, final MutationTestSummaryData data)
+      throws IOException {
     // Step 1: Map mutations to lines
     final List<Line> lines = this.getLines(data);
 
@@ -61,20 +60,18 @@ public class JsonParser {
     file.addMutants(this.getMutantsFromLines(lines, data));
   }
 
-  private List<JsonMutant> getMutantsFromLines(final List<Line> lines,
-      final MutationTestSummaryData data) {
+  private List<JsonMutant> getMutantsFromLines(
+      final List<Line> lines, final MutationTestSummaryData data) {
     final List<JsonMutant> jsonMutants = new ArrayList<>();
     if (lines.isEmpty()) {
       // If there are no lines, add the mutants anyway, without source
       for (MutationResult mutationResult : data.getResults()) {
-        jsonMutants
-            .add(this.mapToJsonMutant(mutationResult, JsonLocation.empty()));
+        jsonMutants.add(this.mapToJsonMutant(mutationResult, JsonLocation.empty()));
       }
     } else {
       for (final Line line : lines) {
         for (MutationResult mutationResult : line.getMutations()) {
-          jsonMutants.add(
-              this.mapToJsonMutant(mutationResult, JsonLocation.ofLine(line)));
+          jsonMutants.add(this.mapToJsonMutant(mutationResult, JsonLocation.ofLine(line)));
         }
       }
     }
@@ -93,8 +90,7 @@ public class JsonParser {
     return builder.toString();
   }
 
-  private List<Line> getLines(final MutationTestSummaryData summaryData)
-      throws IOException {
+  private List<Line> getLines(final MutationTestSummaryData summaryData) throws IOException {
     final String fileName = summaryData.getFileName();
     final Collection<ClassLines> classLines = summaryData.getClassLines();
     final Optional<Reader> reader = findReaderForSource(classLines, fileName);
@@ -108,29 +104,27 @@ public class JsonParser {
   private Optional<Reader> findReaderForSource(
       final Collection<ClassLines> classLines, final String fileName) {
     for (final SourceLocator each : this.sourceRoots) {
-      final Optional<Reader> maybe = each
-          .locate(this.classLinesToNames(classLines), fileName);
-      if (maybe.isPresent())
-        return maybe;
+      final Optional<Reader> maybe = each.locate(this.classLinesToNames(classLines), fileName);
+      if (maybe.isPresent()) return maybe;
     }
     return Optional.empty();
   }
 
-  private Collection<String> classLinesToNames(
-      final Collection<ClassLines> classLines) {
+  private Collection<String> classLinesToNames(final Collection<ClassLines> classLines) {
     return FCollection.map(classLines, a -> a.name().asJavaName());
   }
 
-  private JsonMutant mapToJsonMutant(final MutationResult mutation,
-      final JsonLocation location) {
+  private JsonMutant mapToJsonMutant(final MutationResult mutation, final JsonLocation location) {
     final String fullMutatorName = mutation.getDetails().getMutator();
     // Only show the class name
-    final String mutatorName = fullMutatorName
-        .substring(fullMutatorName.lastIndexOf(".") + 1);
+    final String mutatorName = fullMutatorName.substring(fullMutatorName.lastIndexOf(".") + 1);
 
-    final JsonMutantStatus status = JsonMutantStatus
-        .fromPitestStatus(mutation.getStatus());
-    return new JsonMutant(Integer.toString(mutationIdCounter.next()), mutatorName,
-        mutation.getDetails().getDescription(), location, status);
+    final JsonMutantStatus status = JsonMutantStatus.fromPitestStatus(mutation.getStatus());
+    return new JsonMutant(
+        Integer.toString(mutationIdCounter.next()),
+        mutatorName,
+        mutation.getDetails().getDescription(),
+        location,
+        status);
   }
 }

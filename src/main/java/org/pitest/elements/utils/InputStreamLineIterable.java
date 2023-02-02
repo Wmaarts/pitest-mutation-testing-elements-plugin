@@ -8,7 +8,7 @@ import java.util.Iterator;
 public class InputStreamLineIterable implements Iterable<String> {
 
   private final BufferedReader reader;
-  private       String         next;
+  private String next;
 
   public InputStreamLineIterable(final Reader reader) {
     this.reader = new BufferedReader(reader);
@@ -47,8 +47,6 @@ public class InputStreamLineIterable implements Iterable<String> {
       public void remove() {
         throw new UnsupportedOperationException();
       }
-
     };
   }
-
 }

@@ -1,21 +1,22 @@
 package org.pitest.elements.models;
 
-import org.pitest.coverage.ClassLines;
-import org.pitest.mutationtest.MutationResult;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+import org.pitest.coverage.ClassLines;
+import org.pitest.mutationtest.MutationResult;
 
 public class MutationTestSummaryData {
 
-  private final String                     fileName;
-  private final Collection<MutationResult> mutations  = new ArrayList<>();
-  private final Set<ClassLines>            classLines = new HashSet<>();
+  private final String fileName;
+  private final Collection<MutationResult> mutations = new ArrayList<>();
+  private final Set<ClassLines> classLines = new HashSet<>();
 
-  public MutationTestSummaryData(final String fileName,
-      final Collection<MutationResult> results, final Collection<ClassLines> classLines) {
+  public MutationTestSummaryData(
+      final String fileName,
+      final Collection<MutationResult> results,
+      final Collection<ClassLines> classLines) {
     this.fileName = fileName;
     this.mutations.addAll(results);
     this.classLines.addAll(classLines);
@@ -23,8 +24,8 @@ public class MutationTestSummaryData {
 
   public String getPackageName() {
     // Name needs to be in slashes instead of dots for mutation-testing-elements
-    final String packageName = this.classLines.iterator().next().name()
-        .asJavaName().replace(".", "/");
+    final String packageName =
+        this.classLines.iterator().next().name().asJavaName().replace(".", "/");
     final int lastSlash = packageName.lastIndexOf('/');
     return lastSlash > 0 ? packageName.substring(0, lastSlash) : "default";
   }
@@ -45,5 +46,4 @@ public class MutationTestSummaryData {
   public Collection<ClassLines> getClassLines() {
     return this.classLines;
   }
-
 }

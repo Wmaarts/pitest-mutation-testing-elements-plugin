@@ -1,11 +1,10 @@
 package org.pitest.elements.utils;
 
-import org.junit.jupiter.api.*;
-import org.pitest.functional.FCollection;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.StringReader;
-
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.*;
+import org.pitest.functional.FCollection;
 
 public class InputStreamLineIterableTest {
 
@@ -21,5 +20,4 @@ public class InputStreamLineIterableTest {
   public void shouldReadAllInput() {
     assertThat(FCollection.map(testee, s -> s)).containsExactly("1", "2", "3");
   }
-
 }

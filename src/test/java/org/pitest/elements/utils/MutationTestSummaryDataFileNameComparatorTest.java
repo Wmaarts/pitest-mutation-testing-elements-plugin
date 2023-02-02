@@ -1,19 +1,19 @@
 package org.pitest.elements.utils;
 
-import org.junit.jupiter.api.*;
-import org.pitest.elements.models.MutationTestSummaryData;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.*;
+import org.pitest.elements.models.MutationTestSummaryData;
 
 public class MutationTestSummaryDataFileNameComparatorTest {
 
   @Test
   public void shouldSortDataByFileName() {
-    final MutationTestSummaryDataFileNameComparator testee = new MutationTestSummaryDataFileNameComparator();
+    final MutationTestSummaryDataFileNameComparator testee =
+        new MutationTestSummaryDataFileNameComparator();
     final MutationTestSummaryData ab = makeSummaryData("ab");
     final MutationTestSummaryData aa = makeSummaryData("aa");
     final MutationTestSummaryData z = makeSummaryData("z");
@@ -24,9 +24,6 @@ public class MutationTestSummaryDataFileNameComparatorTest {
   }
 
   private MutationTestSummaryData makeSummaryData(final String fileName) {
-    return new MutationTestSummaryData(fileName,
-        Collections.emptyList(),
-        Collections.emptyList());
+    return new MutationTestSummaryData(fileName, Collections.emptyList(), Collections.emptyList());
   }
-
 }

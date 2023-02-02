@@ -1,12 +1,11 @@
 package org.pitest.elements.models;
 
+import java.util.List;
 import org.pitest.mutationtest.MutationResult;
 
-import java.util.List;
-
 public class Line {
-  private final long                 number;
-  private final String               text;
+  private final long number;
+  private final String text;
   private final List<MutationResult> mutations;
 
   public Line(final long number, final String text, final List<MutationResult> mutations) {
@@ -26,5 +25,4 @@ public class Line {
   public List<MutationResult> getMutations() {
     return this.mutations;
   }
-
 }
