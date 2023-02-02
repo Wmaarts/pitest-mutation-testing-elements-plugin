@@ -1,12 +1,11 @@
 package org.pitest.elements.models;
 
-import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.*;
 
 public class PackageSummaryDataTest {
 
@@ -31,7 +30,7 @@ public class PackageSummaryDataTest {
   }
 
   @Test
-  public void shouldNotAddDuplicateSummaryData(){
+  public void shouldNotAddDuplicateSummaryData() {
     final PackageSummaryData testee = new PackageSummaryData("foo");
     final MutationTestSummaryData a = makeSummaryData("a");
     final MutationTestSummaryData a2 = makeSummaryData("a");
@@ -41,9 +40,6 @@ public class PackageSummaryDataTest {
   }
 
   private MutationTestSummaryData makeSummaryData(final String fileName) {
-    return new MutationTestSummaryData(fileName,
-        Collections.emptyList(),
-        Collections.emptyList());
+    return new MutationTestSummaryData(fileName, Collections.emptyList(), Collections.emptyList());
   }
-
 }

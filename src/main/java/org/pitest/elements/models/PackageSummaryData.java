@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class PackageSummaryData implements Comparable<PackageSummaryData> {
 
-  private final String                               packageName;
+  private final String packageName;
   private final Map<String, MutationTestSummaryData> fileNameToSummaryData = new HashMap<>();
 
   public PackageSummaryData(final String packageName) {
@@ -15,8 +15,7 @@ public class PackageSummaryData implements Comparable<PackageSummaryData> {
   }
 
   public void addSummaryData(final MutationTestSummaryData data) {
-    final MutationTestSummaryData existing = this.fileNameToSummaryData
-        .get(data.getFileName());
+    final MutationTestSummaryData existing = this.fileNameToSummaryData.get(data.getFileName());
     if (existing == null) {
       this.fileNameToSummaryData.put(data.getFileName(), data);
     } else {

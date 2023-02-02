@@ -1,9 +1,5 @@
 package org.pitest.elements.utils;
 
-import org.pitest.functional.FCollection;
-import org.pitest.mutationtest.MutationResult;
-import org.pitest.elements.models.Line;
-
 import java.io.IOException;
 import java.io.Reader;
 import java.util.Collection;
@@ -11,6 +7,9 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import org.pitest.elements.models.Line;
+import org.pitest.functional.FCollection;
+import org.pitest.mutationtest.MutationResult;
 
 public class LineFactory {
 
@@ -35,8 +34,7 @@ public class LineFactory {
 
       @Override
       public Line apply(final String a) {
-        final Line l = new Line(this.lineNumber, a,
-            getMutationsForLine(this.lineNumber));
+        final Line l = new Line(this.lineNumber, a, getMutationsForLine(this.lineNumber));
         this.lineNumber++;
         return l;
       }
@@ -44,12 +42,10 @@ public class LineFactory {
   }
 
   private List<MutationResult> getMutationsForLine(final int lineNumber) {
-    return this.mutations.stream().filter(isAtLineNumber(lineNumber))
-        .collect(Collectors.toList());
+    return this.mutations.stream().filter(isAtLineNumber(lineNumber)).collect(Collectors.toList());
   }
 
   private Predicate<MutationResult> isAtLineNumber(final int lineNumber) {
     return result -> result.getDetails().getLineNumber() == lineNumber;
   }
-
 }

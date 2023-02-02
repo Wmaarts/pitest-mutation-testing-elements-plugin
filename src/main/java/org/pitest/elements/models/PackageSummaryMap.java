@@ -16,8 +16,7 @@ public class PackageSummaryMap {
     }
   }
 
-  public void update(final String packageName,
-      final MutationTestSummaryData data) {
+  public void update(final String packageName, final MutationTestSummaryData data) {
     final PackageSummaryData psd = getPackageSummaryData(packageName);
     psd.addSummaryData(data);
   }

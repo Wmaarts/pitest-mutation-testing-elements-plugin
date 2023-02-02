@@ -1,16 +1,15 @@
 package org.pitest.elements.utils;
 
-import org.junit.jupiter.api.*;
-import org.pitest.mutationtest.MutationResult;
-import org.pitest.elements.models.Line;
-import org.pitest.elements.testutils.MutationResultBuilder;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.*;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.*;
+import org.pitest.elements.models.Line;
+import org.pitest.elements.testutils.MutationResultBuilder;
+import org.pitest.mutationtest.MutationResult;
 
 public class LineFactoryTest {
 
@@ -30,8 +29,7 @@ public class LineFactoryTest {
     List<Integer> mutatorLocations = Arrays.asList(1, 5, 10, 15, 50, 80);
     final LineFactory testee = createTestee(mutatorLocations);
 
-    final List<Line> lines = testee
-        .convert(createReaderWithNrOfLines(nrOfLines));
+    final List<Line> lines = testee.convert(createReaderWithNrOfLines(nrOfLines));
 
     for (final Line line : lines) {
       if (mutatorLocations.contains((int) line.getNumber())) {
@@ -61,5 +59,4 @@ public class LineFactoryTest {
     }
     return new LineFactory(mutationResults);
   }
-
 }

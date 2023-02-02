@@ -1,13 +1,13 @@
 package org.pitest.elements.testutils;
 
-import org.pitest.mutationtest.MutationResult;
-
 import java.util.Collections;
 import java.util.List;
+import org.pitest.mutationtest.MutationResult;
 
 public class JsonBuilder {
-  private final String        beginJson = "{\"schemaVersion\":\"1\",\"thresholds\":{\"high\":60,\"low\":80},\"files\":{";
-  private final String        endJson   = "}}";
+  private final String beginJson =
+      "{\"schemaVersion\":\"1\",\"thresholds\":{\"high\":60,\"low\":80},\"files\":{";
+  private final String endJson = "}}";
   private final StringBuilder stringBuilder;
   private int mutantCounter = 0;
 
@@ -21,14 +21,13 @@ public class JsonBuilder {
     return this;
   }
 
-  public JsonBuilder addFile(final String fileName,
-      final String source) {
+  public JsonBuilder addFile(final String fileName, final String source) {
     this.addFile(fileName, source, Collections.emptyList());
     return this;
   }
 
-  public JsonBuilder addFile(final String fileName, final String source,
-      final List<MutationResult> mutations) {
+  public JsonBuilder addFile(
+      final String fileName, final String source, final List<MutationResult> mutations) {
     String fullClassName = "\"package/" + fileName + "/" + fileName + ".java\"";
     stringBuilder.append(fullClassName);
     stringBuilder.append(":{\"source\":\"");
@@ -36,7 +35,7 @@ public class JsonBuilder {
     stringBuilder.append("\\n\",\"language\":\"java\"");
     stringBuilder.append(",\"mutants\":[");
 
-    if(!mutations.isEmpty()) {
+    if (!mutations.isEmpty()) {
       for (int i = 0; i < mutations.size() - 1; i++) {
         addMutant(mutations.get(i));
         stringBuilder.append(",");
@@ -58,11 +57,12 @@ public class JsonBuilder {
     stringBuilder.append(",\"status\":\"NoCoverage\"}");
   }
 
-  private String locationToJson(final int lineNr){
+  private String locationToJson(final int lineNr) {
     return locationToJson(lineNr, 1, 7);
   }
 
-  public static String locationToJson(final int lineNr, final int startColumn, final int endColumn){
+  public static String locationToJson(
+      final int lineNr, final int startColumn, final int endColumn) {
     final StringBuilder locationBuilder = new StringBuilder();
     locationBuilder.append("{\"start\":{\"line\":");
     locationBuilder.append(lineNr);
@@ -80,5 +80,4 @@ public class JsonBuilder {
     stringBuilder.append(endJson);
     return stringBuilder.toString();
   }
-
 }

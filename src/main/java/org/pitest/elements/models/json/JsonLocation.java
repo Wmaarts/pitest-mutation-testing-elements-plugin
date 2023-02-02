@@ -11,23 +11,23 @@ public class JsonLocation {
   }
 
   public static JsonLocation ofLine(Line line) {
-    final LineAndColumn start = new LineAndColumn((int) line.getNumber(), 1 + indexOfFirstNonWhitespace(line.getText()));
-    final LineAndColumn end = new LineAndColumn((int) line.getNumber(),
-        line.getText().length());
+    final LineAndColumn start =
+        new LineAndColumn((int) line.getNumber(), 1 + indexOfFirstNonWhitespace(line.getText()));
+    final LineAndColumn end = new LineAndColumn((int) line.getNumber(), line.getText().length());
     return new JsonLocation(start, end);
   }
 
-  private static int indexOfFirstNonWhitespace(String text){
+  private static int indexOfFirstNonWhitespace(String text) {
     char[] charArray = text.toCharArray();
-    for(int i = 0; i < charArray.length; i++) {
-      if(!Character.isWhitespace(charArray[i])){
+    for (int i = 0; i < charArray.length; i++) {
+      if (!Character.isWhitespace(charArray[i])) {
         return i;
       }
     }
     return 0; // Just mark the whole line
   }
 
-  public static JsonLocation empty(){
+  public static JsonLocation empty() {
     return new JsonLocation(new LineAndColumn(1, 1), new LineAndColumn(1, 2));
   }
 }

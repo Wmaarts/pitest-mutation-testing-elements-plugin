@@ -1,14 +1,13 @@
 package org.pitest.elements.models;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import java.util.Collection;
+import java.util.Collections;
 import org.junit.jupiter.api.*;
 import org.pitest.coverage.ClassLines;
 import org.pitest.elements.testutils.MockClassLines;
 import org.pitest.mutationtest.MutationResult;
-
-import java.util.Collection;
-import java.util.Collections;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MutationTestSummaryDataTest {
 
@@ -25,8 +24,7 @@ public class MutationTestSummaryDataTest {
     int nrOfResults = 10;
 
     // Act
-    this.testee
-        .addTestSummary(buildSummaryDataMutators(nrOfClassLines, nrOfResults));
+    this.testee.addTestSummary(buildSummaryDataMutators(nrOfClassLines, nrOfResults));
 
     // Assert
     assertEquals(1, testee.getClassLines().size());
@@ -54,14 +52,10 @@ public class MutationTestSummaryDataTest {
     return new MutationTestSummaryData(FILE_NAME, results, classLines);
   }
 
-  private MutationTestSummaryData buildSummaryDataMutators(int nrOfClassLines,
-      int nrOfResults) {
-    final Collection<ClassLines> classLines = Collections
-        .nCopies(nrOfClassLines, makeClassLines());
-    final Collection<MutationResult> results = Collections
-        .nCopies(nrOfResults, makeResult());
+  private MutationTestSummaryData buildSummaryDataMutators(int nrOfClassLines, int nrOfResults) {
+    final Collection<ClassLines> classLines = Collections.nCopies(nrOfClassLines, makeClassLines());
+    final Collection<MutationResult> results = Collections.nCopies(nrOfResults, makeResult());
 
     return new MutationTestSummaryData(FILE_NAME, results, classLines);
   }
-
 }
