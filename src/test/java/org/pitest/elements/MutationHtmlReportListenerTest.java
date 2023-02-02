@@ -40,8 +40,8 @@ public class MutationHtmlReportListenerTest {
     when(this.outputStrategy.createWriterForFile(any(String.class)))
     .thenReturn(this.writer);
     ClassLines classLines = MockClassLines.create(("foo"));
-    when(this.coverageDb.getCoveredLinesForClass(any())).thenReturn(
-        Optional.of(classLines));
+    when(this.coverageDb.getCodeLinesForClass(any())).thenReturn(
+        classLines);
 
     this.testee = new MutationReportListener(this.coverageDb,
         this.outputStrategy, this.sourceLocator);

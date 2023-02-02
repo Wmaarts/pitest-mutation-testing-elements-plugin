@@ -103,10 +103,8 @@ public class MutationReportListener implements MutationResultListener {
 
   private MutationTestSummaryData createSummaryData(
       final CoverageDatabase coverage, final ClassMutationResults data) {
-    Set<ClassLines> classLines = coverage
-        .getCoveredLinesForClass(data.getMutatedClass())
-        .map(Collections::singleton)
-        .orElseGet(Collections::emptySet);
+    Set<ClassLines> classLines = Collections.singleton(coverage
+        .getCodeLinesForClass(data.getMutatedClass()));
     return new MutationTestSummaryData(data.getFileName(), data.getMutations(), classLines);
   }
 
