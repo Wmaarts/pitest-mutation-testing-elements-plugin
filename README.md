@@ -70,4 +70,4 @@ pitest {
 ## Preview 🔮
 
 This is a result of pitest run on this plugin. (More previews [here](https://github.com/stryker-mutator/mutation-testing-elements/tree/master/packages/elements#mutation-testing-elements))
-![preview](https://i.imgur.com/tKp346S.png)
+![preview](https://user-images.githubusercontent.com/10114577/217536203-2148ebe0-bd71-4132-8123-39e1eca58f52.png)
