@@ -46,8 +46,8 @@ public class MutationHtmlReportListenerTest {
   }
 
   @Test
-  public void shouldCreateAJsFile() {
+  public void shouldCreateAJsonFile() {
     this.testee.runEnd();
-    verify(this.outputStrategy).createWriterForFile("html2" + File.separatorChar + "report.js");
+    verify(this.outputStrategy).createWriterForFile("html2" + File.separatorChar + "report.json");
   }
 }
