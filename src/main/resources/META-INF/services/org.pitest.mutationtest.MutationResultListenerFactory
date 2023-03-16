@@ -1,1 +1,2 @@
 org.pitest.elements.MutationTestingElementsReportFactory
+org.pitest.elements.MutationTestingElementsJsonReportFactory

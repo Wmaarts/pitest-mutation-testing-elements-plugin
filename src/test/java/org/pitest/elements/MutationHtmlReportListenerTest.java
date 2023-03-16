@@ -17,8 +17,6 @@ import org.pitest.util.ResultOutputStrategy;
 
 public class MutationHtmlReportListenerTest {
 
-  private MutationReportListener testee;
-
   @Mock private ReportCoverage coverage;
 
   @Mock private ResultOutputStrategy outputStrategy;
@@ -34,20 +32,22 @@ public class MutationHtmlReportListenerTest {
     when(this.outputStrategy.createWriterForFile(any(String.class))).thenReturn(this.writer);
     ClassLines classLines = MockClassLines.create(("foo"));
     when(this.coverage.getCodeLinesForClass(any())).thenReturn(classLines);
+  }
 
-    this.testee =
-        new MutationReportListener(this.coverage, this.outputStrategy, this.sourceLocator);
+  private MutationReportListener testeeFactory(final MutationReportListener.ReportType reportType) {
+    return new MutationReportListener(
+        reportType, this.coverage, this.outputStrategy, this.sourceLocator);
   }
 
   @Test
   public void shouldCreateAnIndexFile() {
-    this.testee.runEnd();
+    testeeFactory(MutationReportListener.ReportType.HTML).runEnd();
     verify(this.outputStrategy).createWriterForFile("html2" + File.separatorChar + "index.html");
   }
 
   @Test
-  public void shouldCreateAJsFile() {
-    this.testee.runEnd();
-    verify(this.outputStrategy).createWriterForFile("html2" + File.separatorChar + "report.js");
+  public void shouldCreateAJsonFile() {
+    testeeFactory(MutationReportListener.ReportType.JSON).runEnd();
+    verify(this.outputStrategy).createWriterForFile("json" + File.separatorChar + "report.json");
   }
 }

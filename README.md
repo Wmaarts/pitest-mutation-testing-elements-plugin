@@ -8,7 +8,9 @@ A pitest plugin that maps [pitest](https://github.com/hcoles/pitest) results to 
 ## How to use 💁
 
 - Add the dependency to the pitest plugin
-- Configure the outputFormat to be `HTML2`
+- Configure the outputFormat to be one of
+  - `HTML2` for Stryker HTML report
+  - `JSON` for a JSON file of [stryker mutation-testing-elements format](https://github.com/stryker-mutator/mutation-testing-elements/tree/master/packages/report-schema)
 
 ### Maven
 
@@ -29,6 +31,7 @@ Add the dependency and configure the `outputFormat` to use the plugin:
     <configuration>
         <outputFormats>
             <format>HTML2</format>
+            <format>JSON</format>
         </outputFormats>
     </configuration>
 </plugin>
@@ -63,7 +66,7 @@ And configure the output format:
 apply plugin: 'info.solidsoft.pitest'
 
 pitest {
-    outputFormats = ['HTML2']
+    outputFormats = ['HTML2', 'JSON']
 }
 ```
 

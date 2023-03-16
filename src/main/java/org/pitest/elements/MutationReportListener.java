@@ -26,6 +26,12 @@ public class MutationReportListener implements MutationResultListener {
 
   private final ReportCoverage coverage;
   private final PackageSummaryMap packageSummaryData = new PackageSummaryMap();
+  private final ReportType reportType;
+
+  public enum ReportType {
+    HTML,
+    JSON
+  }
 
   private static final String HTML_PAGE =
       "<!DOCTYPE html>\n"
@@ -53,9 +59,11 @@ public class MutationReportListener implements MutationResultListener {
           + "</html>";
 
   public MutationReportListener(
+      final ReportType reportType,
       final ReportCoverage coverage,
       final ResultOutputStrategy outputStrategy,
       final SourceLocator... locators) {
+    this.reportType = reportType;
     this.coverage = coverage;
     this.outputStrategy = outputStrategy;
     this.jsonParser = new JsonParser(new HashSet<>(Arrays.asList(locators)));
@@ -85,6 +93,17 @@ public class MutationReportListener implements MutationResultListener {
         this.outputStrategy.createWriterForFile("html2" + File.separatorChar + "report.js");
     try {
       writer.write(content);
+      writer.close();
+    } catch (final IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  private void createJsonReport(final String json) {
+    final Writer writer =
+        this.outputStrategy.createWriterForFile("json" + File.separatorChar + "report.json");
+    try {
+      writer.write(json);
       writer.close();
     } catch (final IOException e) {
       e.printStackTrace();
@@ -131,9 +150,13 @@ public class MutationReportListener implements MutationResultListener {
   public void runEnd() {
     try {
       String json = jsonParser.toJson(this.packageSummaryData);
-      createHtml();
-      createMutationTestingElementsJs();
-      createJs(json);
+      if (reportType == ReportType.HTML) {
+        createHtml();
+        createMutationTestingElementsJs();
+        createJs(json);
+      } else if (reportType == ReportType.JSON) {
+        createJsonReport(json);
+      }
     } catch (IOException e) {
       e.printStackTrace();
     }
