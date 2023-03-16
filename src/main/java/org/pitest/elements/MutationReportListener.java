@@ -49,11 +49,6 @@ public class MutationReportListener implements MutationResultListener {
           + "    updateTheme();\n"
           + "  </script>\n"
           + "  <script src=\"report.js\"></script>\n"
-          + "  <script type=\"application/javascript\">"
-          + "    fetch('./report.json')\n"
-          + "      .then(res => res.json())\n"
-          + "      .then(json => document.querySelector('mutation-test-report-app').report = json)"
-          + "  </script>\n"
           + "</body>\n"
           + "</html>";
 
@@ -84,11 +79,12 @@ public class MutationReportListener implements MutationResultListener {
     }
   }
 
-  private void createJson(final String json) {
+  private void createJs(final String json) {
+    final String content = "document.querySelector('mutation-test-report-app').report = " + json;
     final Writer writer =
-        this.outputStrategy.createWriterForFile("html2" + File.separatorChar + "report.json");
+        this.outputStrategy.createWriterForFile("html2" + File.separatorChar + "report.js");
     try {
-      writer.write(json);
+      writer.write(content);
       writer.close();
     } catch (final IOException e) {
       e.printStackTrace();
@@ -137,7 +133,7 @@ public class MutationReportListener implements MutationResultListener {
       String json = jsonParser.toJson(this.packageSummaryData);
       createHtml();
       createMutationTestingElementsJs();
-      createJson(json);
+      createJs(json);
     } catch (IOException e) {
       e.printStackTrace();
     }
