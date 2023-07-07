@@ -6,7 +6,7 @@ import org.pitest.mutationtest.MutationResult;
 
 public class JsonBuilder {
   private final String beginJson =
-      "{\"schemaVersion\":\"1\",\"thresholds\":{\"high\":60,\"low\":80},\"files\":{";
+      "{\"schemaVersion\":\"2\",\"thresholds\":{\"high\":60,\"low\":80},\"files\":{";
   private final String endJson = "}}";
   private final StringBuilder stringBuilder;
   private int mutantCounter = 0;
