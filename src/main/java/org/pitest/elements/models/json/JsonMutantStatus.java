@@ -8,7 +8,8 @@ public enum JsonMutantStatus {
   NoCoverage,
   CompileError,
   RuntimeError,
-  Timeout;
+  Timeout,
+  Pending;
 
   public static JsonMutantStatus fromPitestStatus(DetectionStatus status) {
     switch (status) {
@@ -24,10 +25,11 @@ public enum JsonMutantStatus {
         return JsonMutantStatus.Survived;
       case TIMED_OUT:
         return JsonMutantStatus.Timeout;
+      case NOT_STARTED:
+        return JsonMutantStatus.Pending;
         // If there's an internal state at the end, something probably went wrong
       case NON_VIABLE:
       case STARTED:
-      case NOT_STARTED:
       default:
         return JsonMutantStatus.RuntimeError;
     }
