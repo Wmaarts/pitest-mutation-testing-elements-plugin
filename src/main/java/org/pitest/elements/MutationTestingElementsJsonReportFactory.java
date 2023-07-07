@@ -5,12 +5,12 @@ import org.pitest.mutationtest.ListenerArguments;
 import org.pitest.mutationtest.MutationResultListener;
 import org.pitest.mutationtest.MutationResultListenerFactory;
 
-public class MutationTestingElementsReportFactory implements MutationResultListenerFactory {
+public class MutationTestingElementsJsonReportFactory implements MutationResultListenerFactory {
 
   @Override
   public MutationResultListener getListener(Properties props, ListenerArguments args) {
     return new MutationReportListener(
-        MutationReportListener.ReportType.HTML,
+        MutationReportListener.ReportType.JSON,
         args.getCoverage(),
         args.getOutputStrategy(),
         args.getLocator());
@@ -18,11 +18,11 @@ public class MutationTestingElementsReportFactory implements MutationResultListe
 
   @Override
   public String name() {
-    return "HTML2";
+    return "JSON";
   }
 
   @Override
   public String description() {
-    return "Mutation testing elements html report plugin";
+    return "Mutation testing elements JSON file report plugin";
   }
 }
