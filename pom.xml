@@ -47,7 +47,7 @@
   <properties>
     <encoding>UTF-8</encoding>
     <revision>MASTER-SNAPSHOT</revision>
-    <pitest-plugin.version>1.14.2</pitest-plugin.version>
+    <pitest-plugin.version>1.14.3</pitest-plugin.version>
   </properties>
   <!-- Project Settings -->
   <dependencies>
