@@ -46,6 +46,7 @@
   </distributionManagement>
   <properties>
     <encoding>UTF-8</encoding>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <revision>MASTER-SNAPSHOT</revision>
     <pitest-plugin.version>1.15.3</pitest-plugin.version>
   </properties>
@@ -85,6 +86,13 @@
       <version>5.7.0</version>
       <scope>test</scope>
     </dependency>
+    <!-- For Mockito -->
+    <dependency>
+      <groupId>net.bytebuddy</groupId>
+      <artifactId>byte-buddy</artifactId>
+      <version>1.14.9</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -115,8 +123,7 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.11.0</version>
         <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
+          <release>8</release>
           <compilerArgs>
             <arg>-Xlint:all</arg>
           </compilerArgs>
