@@ -2,13 +2,13 @@ package org.pitest.elements.utils;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import org.pitest.elements.models.Line;
-import org.pitest.functional.FCollection;
 import org.pitest.mutationtest.MutationResult;
 
 public class LineFactory {
@@ -22,7 +22,12 @@ public class LineFactory {
   public List<Line> convert(final Reader source) throws IOException {
     try {
       final InputStreamLineIterable lines = new InputStreamLineIterable(source);
-      return FCollection.map(lines, stringToAnnotatedLine());
+      ArrayList<Line> result = new ArrayList<>();
+      Function<String, Line> f = stringToAnnotatedLine();
+      for (String line : lines) {
+        result.add(f.apply(line));
+      }
+      return result;
     } finally {
       source.close();
     }
