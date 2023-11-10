@@ -5,13 +5,13 @@ import com.google.gson.GsonBuilder;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.*;
+import java.util.stream.Collectors;
 import org.pitest.coverage.ClassLines;
 import org.pitest.elements.models.Line;
 import org.pitest.elements.models.MutationTestSummaryData;
 import org.pitest.elements.models.PackageSummaryData;
 import org.pitest.elements.models.PackageSummaryMap;
 import org.pitest.elements.models.json.*;
-import org.pitest.functional.FCollection;
 import org.pitest.mutationtest.MutationResult;
 import org.pitest.mutationtest.SourceLocator;
 
@@ -103,15 +103,16 @@ public class JsonParser {
 
   private Optional<Reader> findReaderForSource(
       final Collection<ClassLines> classLines, final String fileName) {
+    Collection<String> names = this.classLinesToNames(classLines);
     for (final SourceLocator each : this.sourceRoots) {
-      final Optional<Reader> maybe = each.locate(this.classLinesToNames(classLines), fileName);
+      final Optional<Reader> maybe = each.locate(names, fileName);
       if (maybe.isPresent()) return maybe;
     }
     return Optional.empty();
   }
 
   private Collection<String> classLinesToNames(final Collection<ClassLines> classLines) {
-    return FCollection.map(classLines, a -> a.name().asJavaName());
+    return classLines.stream().map(a -> a.name().asJavaName()).collect(Collectors.toList());
   }
 
   private JsonMutant mapToJsonMutant(final MutationResult mutation, final JsonLocation location) {
