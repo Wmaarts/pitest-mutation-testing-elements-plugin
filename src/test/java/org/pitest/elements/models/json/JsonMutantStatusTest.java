@@ -1,9 +1,9 @@
 package org.pitest.elements.models.json;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.junit.jupiter.api.Test;
 import org.pitest.mutationtest.DetectionStatus;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class JsonMutantStatusTest {
 
@@ -14,7 +14,7 @@ public class JsonMutantStatusTest {
     assertEquals(JsonMutantStatus.Killed, mutantStatus);
   }
 
-  //Test the other enum values
+  // Test the other enum values
   @Test
   public void returnsSurvivedWhenPitestStatusIsSurvived() {
     final DetectionStatus status = DetectionStatus.SURVIVED;
