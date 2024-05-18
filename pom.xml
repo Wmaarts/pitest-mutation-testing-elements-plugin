@@ -48,7 +48,7 @@
     <encoding>UTF-8</encoding>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <revision>MASTER-SNAPSHOT</revision>
-    <pitest-plugin.version>1.16.0</pitest-plugin.version>
+    <pitest-plugin.version>1.16.1</pitest-plugin.version>
   </properties>
   <!-- Project Settings -->
   <dependencies>
@@ -90,7 +90,7 @@
     <dependency>
       <groupId>net.bytebuddy</groupId>
       <artifactId>byte-buddy</artifactId>
-      <version>1.14.14</version>
+      <version>1.14.15</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
