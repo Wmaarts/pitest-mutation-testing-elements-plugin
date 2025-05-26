@@ -163,7 +163,7 @@
               <expandEmptyElements>false</expandEmptyElements>
               <spaceBeforeCloseEmptyElement>true</spaceBeforeCloseEmptyElement>
               <keepBlankLines>false</keepBlankLines>
-              <indentSchemaLocation>true</indentSchemaLocation>
+              <indentAttribute>schemaLocation</indentAttribute>
             </sortPom>
             <trimTrailingWhitespace />
             <endWithNewline />
