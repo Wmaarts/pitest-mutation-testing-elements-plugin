@@ -65,7 +65,7 @@
     <dependency>
       <groupId>io.stryker-mutator</groupId>
       <artifactId>mutation-testing-elements</artifactId>
-      <version>3.3.0</version>
+      <version>3.5.2</version>
     </dependency>
     <!--Test dependencies-->
     <dependency>
