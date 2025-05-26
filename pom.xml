@@ -48,7 +48,7 @@
     <encoding>UTF-8</encoding>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <revision>MASTER-SNAPSHOT</revision>
-    <pitest-plugin.version>1.17.1</pitest-plugin.version>
+    <pitest-plugin.version>1.19.4</pitest-plugin.version>
   </properties>
   <!-- Project Settings -->
   <dependencies>
@@ -116,7 +116,7 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.14.0</version>
         <configuration>
-          <release>8</release>
+          <release>11</release>
           <compilerArgs>
             <arg>-Xlint:all</arg>
           </compilerArgs>
@@ -163,7 +163,7 @@
               <expandEmptyElements>false</expandEmptyElements>
               <spaceBeforeCloseEmptyElement>true</spaceBeforeCloseEmptyElement>
               <keepBlankLines>false</keepBlankLines>
-              <indentSchemaLocation>true</indentSchemaLocation>
+              <indentAttribute>schemaLocation</indentAttribute>
             </sortPom>
             <trimTrailingWhitespace />
             <endWithNewline />

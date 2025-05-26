@@ -3,6 +3,9 @@ package org.pitest.elements;
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -15,7 +18,6 @@ import org.pitest.elements.utils.JsonParser;
 import org.pitest.mutationtest.ClassMutationResults;
 import org.pitest.mutationtest.MutationResultListener;
 import org.pitest.mutationtest.SourceLocator;
-import org.pitest.util.FileUtil;
 import org.pitest.util.ResultOutputStrategy;
 
 public class MutationReportListener implements MutationResultListener {
@@ -69,10 +71,10 @@ public class MutationReportListener implements MutationResultListener {
     this.jsonParser = new JsonParser(new HashSet<>(Arrays.asList(locators)));
   }
 
-  private String loadMutationTestElementsJs() throws IOException {
+  private String loadMutationTestElementsJs() throws IOException, URISyntaxException {
     final String htmlReportResource = "elements/mutation-test-elements.js";
-    return FileUtil.readToString(
-        this.getClass().getClassLoader().getResourceAsStream(htmlReportResource));
+    Path path = Path.of(this.getClass().getClassLoader().getResource(htmlReportResource).getPath());
+    return Files.readString(path);
   }
 
   private void createHtml() {
@@ -118,7 +120,7 @@ public class MutationReportListener implements MutationResultListener {
       final String content = this.loadMutationTestElementsJs();
       writer.write(content);
       writer.close();
-    } catch (final IOException e) {
+    } catch (IOException | URISyntaxException e) {
       e.printStackTrace();
     }
   }
