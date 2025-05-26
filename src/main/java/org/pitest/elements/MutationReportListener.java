@@ -73,7 +73,7 @@ public class MutationReportListener implements MutationResultListener {
 
   private String loadMutationTestElementsJs() throws IOException, URISyntaxException {
     final String htmlReportResource = "elements/mutation-test-elements.js";
-    Path path = Path.of(this.getClass().getClassLoader().getResource(htmlReportResource).getPath());
+    Path path = Path.of(this.getClass().getClassLoader().getResource(htmlReportResource).toURI());
     return Files.readString(path);
   }
 
