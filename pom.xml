@@ -102,7 +102,7 @@
           <dependency>
             <groupId>io.github.wmaarts</groupId>
             <artifactId>pitest-mutation-testing-elements-plugin</artifactId>
-            <version>0.4.3</version>
+            <version>0.6.5</version>
           </dependency>
           <dependency>
             <groupId>org.pitest</groupId>
