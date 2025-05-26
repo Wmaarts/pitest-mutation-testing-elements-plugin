@@ -30,7 +30,7 @@ public enum JsonMutantStatus {
         return JsonMutantStatus.Pending;
       case NON_VIABLE:
         return JsonMutantStatus.Ignored;
-        // If there's an internal state at the end, something probably went wrong
+      // If there's an internal state at the end, something probably went wrong
       case STARTED:
       default:
         return JsonMutantStatus.RuntimeError;
