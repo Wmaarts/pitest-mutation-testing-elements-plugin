@@ -1,13 +1,18 @@
 name: CI
 
-on: [ 'pull_request', 'push']
+on:
+  push:
+    branches: [master]
+    tags: ['v*']
+  pull_request:
+    types: [synchronize, opened, reopened]
 
 jobs:
   test:
     name: Test on JDK ${{matrix.java-version}}
     strategy:
       matrix:
-        java-version: ["11", "17", "21"]
+        java-version: ['11', '17', '21']
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
