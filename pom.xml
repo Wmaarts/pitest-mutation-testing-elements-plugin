@@ -223,7 +223,6 @@
                 <phase>verify</phase>
                 <configuration>
                   <keyname>pitest-mutation-testing-elements-plugin bot</keyname>
-                  <passphrase>${env.PGP_PASSPHRASE}</passphrase>
                   <!-- For gpg2 -->
                   <useAgent>true</useAgent>
                   <gpgArguments>
