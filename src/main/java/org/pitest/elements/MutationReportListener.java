@@ -2,10 +2,8 @@ package org.pitest.elements;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Writer;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -71,10 +69,12 @@ public class MutationReportListener implements MutationResultListener {
     this.jsonParser = new JsonParser(new HashSet<>(Arrays.asList(locators)));
   }
 
-  private String loadMutationTestElementsJs() throws IOException, URISyntaxException {
+  private String loadMutationTestElementsJs() throws IOException {
     final String htmlReportResource = "elements/mutation-test-elements.js";
-    Path path = Path.of(this.getClass().getClassLoader().getResource(htmlReportResource).getPath());
-    return Files.readString(path);
+    try (InputStream in =
+        this.getClass().getClassLoader().getResourceAsStream(htmlReportResource)) {
+      return new String(in.readAllBytes());
+    }
   }
 
   private void createHtml() {
@@ -120,7 +120,7 @@ public class MutationReportListener implements MutationResultListener {
       final String content = this.loadMutationTestElementsJs();
       writer.write(content);
       writer.close();
-    } catch (IOException | URISyntaxException e) {
+    } catch (IOException e) {
       e.printStackTrace();
     }
   }
