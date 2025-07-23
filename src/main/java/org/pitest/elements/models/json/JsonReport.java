@@ -6,9 +6,11 @@ public class JsonReport {
   private String schemaVersion = "2";
   private JsonThresholds thresholds = new JsonThresholds(60, 80);
   private Map<String, JsonFile> files;
+  private Map<String, JsonTestFile> testFiles;
 
-  public JsonReport(Map<String, JsonFile> files) {
+  public JsonReport(Map<String, JsonFile> files, Map<String, JsonTestFile> testFiles) {
     this.files = files;
+    this.testFiles = testFiles;
   }
 }
 

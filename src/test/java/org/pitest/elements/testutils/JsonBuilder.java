@@ -7,6 +7,7 @@ import org.pitest.mutationtest.MutationResult;
 public class JsonBuilder {
   private final String beginJson =
       "{\"schemaVersion\":\"2\",\"thresholds\":{\"high\":60,\"low\":80},\"files\":{";
+  private final String testFilesBeginJson = "},\"testFiles\":{";
   private final String endJson = "}}";
   private final StringBuilder stringBuilder;
   private int mutantCounter = 0;
@@ -46,6 +47,11 @@ public class JsonBuilder {
     return this;
   }
 
+  public JsonBuilder addTestFile() {
+    stringBuilder.append(testFilesBeginJson);
+    return this;
+  }
+
   private void addMutant(final MutationResult result) {
     final int lineNr = result.getDetails().getLineNumber();
     stringBuilder.append("{\"id\":\"");
@@ -54,7 +60,18 @@ public class JsonBuilder {
     stringBuilder.append(result.getDetails().getMutator());
     stringBuilder.append("\",\"description\":\"\",\"location\":");
     stringBuilder.append(locationToJson(lineNr));
-    stringBuilder.append(",\"status\":\"NoCoverage\"}");
+    stringBuilder.append(",\"status\":\"NoCoverage\"");
+    if (result.getCoveringTests() != null) {
+      stringBuilder.append(",\"coveredBy\":[");
+      stringBuilder.append(String.join(",", result.getCoveringTests()));
+      stringBuilder.append("]");
+    }
+    if (result.getKillingTests() != null) {
+      stringBuilder.append(",\"killedBy\":[");
+      stringBuilder.append(String.join(",", result.getKillingTests()));
+      stringBuilder.append("]");
+    }
+    stringBuilder.append("}");
   }
 
   private String locationToJson(final int lineNr) {
@@ -77,6 +94,9 @@ public class JsonBuilder {
   }
 
   public String build() {
+    if (stringBuilder.indexOf("testFiles") < 0) {
+      stringBuilder.append(testFilesBeginJson);
+    }
     stringBuilder.append(endJson);
     return stringBuilder.toString();
   }

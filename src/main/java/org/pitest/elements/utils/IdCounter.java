@@ -1,6 +1,6 @@
 package org.pitest.elements.utils;
 
-public class MutationIdCounter {
+public class IdCounter {
   private int counter = 0;
 
   public int next() {

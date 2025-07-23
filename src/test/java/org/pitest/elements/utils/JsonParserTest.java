@@ -41,7 +41,7 @@ public class JsonParserTest {
     final JsonParser testee = createTestee();
     final String json =
         testee.toJson(createPackageSummaryMap(Collections.singletonList(fileName + ".java")));
-    final String expected = new JsonBuilder().addFile(fileName).build();
+    final String expected = new JsonBuilder().addFile(fileName).addTestFile().build();
     assertEquals(expected, json);
   }
 
@@ -62,7 +62,10 @@ public class JsonParserTest {
     final JsonParser testee = createTestee(sourceLocator);
     final String json = testee.toJson(createPackageSummaryMap(map));
     final String expected =
-        new JsonBuilder().addFile(fileName, sourceLocator.getSource(), mutationResults).build();
+        new JsonBuilder()
+            .addFile(fileName, sourceLocator.getSource(), mutationResults)
+            .addTestFile()
+            .build();
     assertEquals(expected, json);
   }
 
