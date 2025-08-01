@@ -2,6 +2,7 @@ package org.pitest.elements.testutils;
 
 import java.util.Collections;
 import java.util.List;
+import org.pitest.elements.models.json.JsonMutantStatus;
 import org.pitest.mutationtest.MutationResult;
 
 public class JsonBuilder {
@@ -47,8 +48,12 @@ public class JsonBuilder {
     return this;
   }
 
-  public JsonBuilder addTestFile() {
+  public JsonBuilder addTestFile(String fileName, String killingTest) {
     stringBuilder.append(testFilesBeginJson);
+    stringBuilder.append("\"").append(fileName);
+    stringBuilder.append("\":{\"tests\":[{\"id\":\"0\",\"name\":\"");
+    stringBuilder.append(killingTest);
+    stringBuilder.append("\"}]}");
     return this;
   }
 
@@ -60,15 +65,20 @@ public class JsonBuilder {
     stringBuilder.append(result.getDetails().getMutator());
     stringBuilder.append("\",\"description\":\"\",\"location\":");
     stringBuilder.append(locationToJson(lineNr));
-    stringBuilder.append(",\"status\":\"NoCoverage\"");
+    stringBuilder.append(
+        ",\"status\":\"" + JsonMutantStatus.fromPitestStatus(result.getStatus()) + "\"");
     if (result.getCoveringTests() != null) {
       stringBuilder.append(",\"coveredBy\":[");
-      stringBuilder.append(String.join(",", result.getCoveringTests()));
+      if (!result.getCoveringTests().isEmpty()) {
+        stringBuilder.append("\"0\"");
+      }
       stringBuilder.append("]");
     }
     if (result.getKillingTests() != null) {
       stringBuilder.append(",\"killedBy\":[");
-      stringBuilder.append(String.join(",", result.getKillingTests()));
+      if (!result.getKillingTests().isEmpty()) {
+        stringBuilder.append("\"0\"");
+      }
       stringBuilder.append("]");
     }
     stringBuilder.append("}");
