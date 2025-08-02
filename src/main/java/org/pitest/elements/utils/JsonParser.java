@@ -39,7 +39,9 @@ public class JsonParser {
 
     for (PackageSummaryData packageData : sortedPackageData) {
       for (MutationTestSummaryData testData : packageData.getSummaryData()) {
-        this.addToJsonTestFiles(collectedJsonTestFiles, testData);
+        if (areCoveringAndKillingTestsSupported()) {
+          this.addToJsonTestFiles(collectedJsonTestFiles, testData);
+        }
         this.addToJsonFiles(collectedJsonFiles, testData);
       }
     }
@@ -66,8 +68,7 @@ public class JsonParser {
   }
 
   private void addToJsonTestFiles(
-      final Map<String, JsonTestFile> collectedJsonTestFiles, final MutationTestSummaryData data)
-      throws IOException {
+      final Map<String, JsonTestFile> collectedJsonTestFiles, final MutationTestSummaryData data) {
 
     data.getResults()
         .forEach(
@@ -164,15 +165,19 @@ public class JsonParser {
     final String fullMutatorName = mutation.getDetails().getMutator();
     // Only show the class name
     final String mutatorName = fullMutatorName.substring(fullMutatorName.lastIndexOf(".") + 1);
-    final String[] coveredBy =
-        mutation.getCoveringTests().stream()
-            .map(test -> testNamesWithId.getOrDefault(test, test))
-            .toArray(String[]::new);
-    final String[] killedBy =
-        mutation.getKillingTests().stream()
-            .map(test -> testNamesWithId.getOrDefault(test, test))
-            .toArray(String[]::new);
+    String[] coveredBy = null;
+    String[] killedBy = null;
+    if (areCoveringAndKillingTestsSupported()) {
+      coveredBy =
+          mutation.getKillingTests().stream()
+              .map(test -> testNamesWithId.getOrDefault(test, test))
+              .toArray(String[]::new);
 
+      killedBy =
+          mutation.getKillingTests().stream()
+              .map(test -> testNamesWithId.getOrDefault(test, test))
+              .toArray(String[]::new);
+    }
     final JsonMutantStatus status = JsonMutantStatus.fromPitestStatus(mutation.getStatus());
     return new JsonMutant(
         Integer.toString(mutationIdCounter.next()),
@@ -182,5 +187,21 @@ public class JsonParser {
         status,
         coveredBy,
         killedBy);
+  }
+
+  private boolean areCoveringAndKillingTestsSupported() {
+    // check if getCoveringTests method exists
+    try {
+      Class<?> mutationResultClass = Class.forName("org.pitest.mutationtest.MutationResult");
+      mutationResultClass.getMethod("getCoveringTests");
+      mutationResultClass.getMethod("getKillingTests");
+      return true;
+    } catch (NoSuchMethodException e) {
+      // If the method does not exist, return false
+      return false;
+    } catch (ClassNotFoundException e) {
+      // If the class is not found, return false
+      return false;
+    }
   }
 }
