@@ -2,11 +2,13 @@ package org.pitest.elements.testutils;
 
 import java.util.Collections;
 import java.util.List;
+import org.pitest.elements.models.json.JsonMutantStatus;
 import org.pitest.mutationtest.MutationResult;
 
 public class JsonBuilder {
   private final String beginJson =
       "{\"schemaVersion\":\"2\",\"thresholds\":{\"high\":60,\"low\":80},\"files\":{";
+  private final String testFilesBeginJson = "},\"testFiles\":{";
   private final String endJson = "}}";
   private final StringBuilder stringBuilder;
   private int mutantCounter = 0;
@@ -46,6 +48,15 @@ public class JsonBuilder {
     return this;
   }
 
+  public JsonBuilder addTestFile(String fileName, String killingTest) {
+    stringBuilder.append(testFilesBeginJson);
+    stringBuilder.append("\"").append(fileName);
+    stringBuilder.append("\":{\"tests\":[{\"id\":\"0\",\"name\":\"");
+    stringBuilder.append(killingTest);
+    stringBuilder.append("\"}]}");
+    return this;
+  }
+
   private void addMutant(final MutationResult result) {
     final int lineNr = result.getDetails().getLineNumber();
     stringBuilder.append("{\"id\":\"");
@@ -54,7 +65,23 @@ public class JsonBuilder {
     stringBuilder.append(result.getDetails().getMutator());
     stringBuilder.append("\",\"description\":\"\",\"location\":");
     stringBuilder.append(locationToJson(lineNr));
-    stringBuilder.append(",\"status\":\"NoCoverage\"}");
+    stringBuilder.append(
+        ",\"status\":\"" + JsonMutantStatus.fromPitestStatus(result.getStatus()) + "\"");
+    if (result.getCoveringTests() != null) {
+      stringBuilder.append(",\"coveredBy\":[");
+      if (!result.getCoveringTests().isEmpty()) {
+        stringBuilder.append("\"0\"");
+      }
+      stringBuilder.append("]");
+    }
+    if (result.getKillingTests() != null) {
+      stringBuilder.append(",\"killedBy\":[");
+      if (!result.getKillingTests().isEmpty()) {
+        stringBuilder.append("\"0\"");
+      }
+      stringBuilder.append("]");
+    }
+    stringBuilder.append("}");
   }
 
   private String locationToJson(final int lineNr) {
@@ -77,6 +104,9 @@ public class JsonBuilder {
   }
 
   public String build() {
+    if (stringBuilder.indexOf("testFiles") < 0) {
+      stringBuilder.append(testFilesBeginJson);
+    }
     stringBuilder.append(endJson);
     return stringBuilder.toString();
   }
