@@ -13,6 +13,7 @@ import org.pitest.elements.models.PackageSummaryMap;
 import org.pitest.elements.testutils.JsonBuilder;
 import org.pitest.elements.testutils.MockClassLines;
 import org.pitest.elements.testutils.MutationResultBuilder;
+import org.pitest.mutationtest.DetectionStatus;
 import org.pitest.mutationtest.MutationResult;
 import org.pitest.mutationtest.SourceLocator;
 
@@ -46,12 +47,42 @@ public class JsonParserTest {
   }
 
   @Test
-  public void shouldParseAFileWithMutantsToJson() throws IOException {
+  public void shouldParseAFileWithMutantsAndTestFilesToJson() throws IOException {
     final String fileName = "Foo";
     final List<Integer> mutantLocations = Arrays.asList(1, 10, 15);
     final Map<String, List<MutationResult>> map = new HashMap<>();
-    final MutationResultBuilder builder = new MutationResultBuilder().className(fileName);
+    final String killingTest =
+        "com.example.TestFoo.[engine:junit-jupiter]/[class:org.example.TestFoo]/[method:testFoo()]";
+    final MutationResultBuilder builder =
+        new MutationResultBuilder()
+            .className(fileName)
+            .statusTestPair(1, DetectionStatus.KILLED, killingTest);
+    final List<MutationResult> mutationResults = new ArrayList<>();
+    for (Integer line : mutantLocations) {
+      mutationResults.add(builder.lineNumber(line).build());
+    }
+    map.put(fileName + ".java", mutationResults);
 
+    final MockSourceLocator sourceLocator = new MockSourceLocator(20);
+    final JsonParser testee = createTestee(sourceLocator);
+    final String json = testee.toJson(createPackageSummaryMap(map));
+    final String expected =
+        new JsonBuilder()
+            .addFile(fileName, sourceLocator.getSource(), mutationResults)
+            .addTestFile("com.example.TestFoo", killingTest)
+            .build();
+    assertEquals(expected, json);
+  }
+
+  @Test
+  public void shouldParseAFileWithMutantsAndNoTestFilesToJson() throws IOException {
+    final String fileName = "Foo";
+    final List<Integer> mutantLocations = Arrays.asList(1, 10, 15);
+    final Map<String, List<MutationResult>> map = new HashMap<>();
+    final MutationResultBuilder builder =
+        new MutationResultBuilder()
+            .className(fileName)
+            .statusTestPair(0, DetectionStatus.NO_COVERAGE, null);
     final List<MutationResult> mutationResults = new ArrayList<>();
     for (Integer line : mutantLocations) {
       mutationResults.add(builder.lineNumber(line).build());

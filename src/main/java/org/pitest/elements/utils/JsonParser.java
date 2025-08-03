@@ -24,21 +24,28 @@ public class JsonParser {
 
   private final Gson gson = new GsonBuilder().disableHtmlEscaping().create();
 
-  private final MutationIdCounter mutationIdCounter = new MutationIdCounter();
+  private final IdCounter mutationIdCounter = new IdCounter();
+  private final IdCounter testIdCounter = new IdCounter();
+  private final Map<String, String> testNamesWithId = new HashMap<>();
 
   public String toJson(final PackageSummaryMap packageSummaryMap) throws IOException {
     mutationIdCounter.reset();
+    testIdCounter.reset();
     final Map<String, JsonFile> collectedJsonFiles = new HashMap<>();
+    final Map<String, JsonTestFile> collectedJsonTestFiles = new HashMap<>();
 
     List<PackageSummaryData> sortedPackageData = packageSummaryMap.valuesList();
     Collections.sort(sortedPackageData);
 
     for (PackageSummaryData packageData : sortedPackageData) {
       for (MutationTestSummaryData testData : packageData.getSummaryData()) {
+        if (areCoveringAndKillingTestsSupported()) {
+          this.addToJsonTestFiles(collectedJsonTestFiles, testData);
+        }
         this.addToJsonFiles(collectedJsonFiles, testData);
       }
     }
-    final JsonReport report = new JsonReport(collectedJsonFiles);
+    final JsonReport report = new JsonReport(collectedJsonFiles, collectedJsonTestFiles);
     return gson.toJson(report, JsonReport.class);
   }
 
@@ -58,6 +65,45 @@ public class JsonParser {
     // Step 3: Add source and mutants to file
     file.addSource(this.getSourceFromLines(lines));
     file.addMutants(this.getMutantsFromLines(lines, data));
+  }
+
+  private void addToJsonTestFiles(
+      final Map<String, JsonTestFile> collectedJsonTestFiles, final MutationTestSummaryData data) {
+
+    data.getResults()
+        .forEach(
+            mutationResult -> {
+              mutationResult
+                  .getCoveringTests()
+                  .forEach(
+                      test -> {
+                        if (!testNamesWithId.containsKey(test)) {
+                          // Mark the test class name as file name
+                          // class name is all the text before ".["
+                          String testFileName = "";
+                          if (test.contains(".[")) {
+                            testFileName = test.substring(0, test.indexOf(".["));
+                          }
+
+                          JsonTestFile testFile;
+                          if (collectedJsonTestFiles.get(testFileName) == null) {
+                            testFile = new JsonTestFile();
+                            collectedJsonTestFiles.put(testFileName, testFile);
+                          } else {
+                            // If the test file already exists, use it
+                            testFile = collectedJsonTestFiles.get(testFileName);
+                          }
+
+                          String testId = Integer.toString(testIdCounter.next());
+                          testNamesWithId.put(test, testId);
+
+                          JsonTestDefinition jsonTestDefinition = new JsonTestDefinition();
+                          jsonTestDefinition.setId(testId);
+                          jsonTestDefinition.setName(test);
+                          testFile.addTest(jsonTestDefinition);
+                        }
+                      });
+            });
   }
 
   private List<JsonMutant> getMutantsFromLines(
@@ -119,13 +165,39 @@ public class JsonParser {
     final String fullMutatorName = mutation.getDetails().getMutator();
     // Only show the class name
     final String mutatorName = fullMutatorName.substring(fullMutatorName.lastIndexOf(".") + 1);
+    String[] coveredBy = null;
+    String[] killedBy = null;
+    if (areCoveringAndKillingTestsSupported()) {
+      coveredBy =
+          mutation.getCoveringTests().stream()
+              .map(test -> testNamesWithId.getOrDefault(test, test))
+              .toArray(String[]::new);
 
+      killedBy =
+          mutation.getKillingTests().stream()
+              .map(test -> testNamesWithId.getOrDefault(test, test))
+              .toArray(String[]::new);
+    }
     final JsonMutantStatus status = JsonMutantStatus.fromPitestStatus(mutation.getStatus());
     return new JsonMutant(
         Integer.toString(mutationIdCounter.next()),
         mutatorName,
         mutation.getDetails().getDescription(),
         location,
-        status);
+        status,
+        coveredBy,
+        killedBy);
+  }
+
+  private boolean areCoveringAndKillingTestsSupported() {
+    // check if getCoveringTests method exists
+    try {
+      MutationResult.class.getMethod("getCoveringTests");
+      MutationResult.class.getMethod("getKillingTests");
+      return true;
+    } catch (NoSuchMethodException e) {
+      // If the method does not exist, return false
+      return false;
+    }
   }
 }

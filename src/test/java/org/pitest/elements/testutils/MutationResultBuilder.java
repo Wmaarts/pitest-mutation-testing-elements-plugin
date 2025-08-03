@@ -12,6 +12,7 @@ public class MutationResultBuilder {
 
   private int lineNumber = 1;
   private String className = "Foo";
+  private MutationStatusTestPair statusTestPair;
 
   public MutationResultBuilder lineNumber(int lineNumber) {
     this.lineNumber = lineNumber;
@@ -23,13 +24,18 @@ public class MutationResultBuilder {
     return this;
   }
 
+  public MutationResultBuilder statusTestPair(
+      int numberOfTestsRun, DetectionStatus status, String killingTestName) {
+    this.statusTestPair = new MutationStatusTestPair(numberOfTestsRun, status, killingTestName);
+    return this;
+  }
+
   public MutationResult build() {
     final Location location = new Location(ClassName.fromString(className), "", "constructor");
     final MutationIdentifier id =
         new MutationIdentifier(location, lineNumber, "id + " + lineNumber);
     final MutationDetails details = new MutationDetails(id, className + ".java", "", lineNumber, 0);
-    final MutationStatusTestPair pair =
-        new MutationStatusTestPair(0, DetectionStatus.NO_COVERAGE, null);
+    final MutationStatusTestPair pair = this.statusTestPair;
     return new MutationResult(details, pair);
   }
 }
