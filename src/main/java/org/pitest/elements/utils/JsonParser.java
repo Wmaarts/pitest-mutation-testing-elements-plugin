@@ -169,7 +169,7 @@ public class JsonParser {
     String[] killedBy = null;
     if (areCoveringAndKillingTestsSupported()) {
       coveredBy =
-          mutation.getKillingTests().stream()
+          mutation.getCoveringTests().stream()
               .map(test -> testNamesWithId.getOrDefault(test, test))
               .toArray(String[]::new);
 
@@ -192,15 +192,11 @@ public class JsonParser {
   private boolean areCoveringAndKillingTestsSupported() {
     // check if getCoveringTests method exists
     try {
-      Class<?> mutationResultClass = Class.forName("org.pitest.mutationtest.MutationResult");
-      mutationResultClass.getMethod("getCoveringTests");
-      mutationResultClass.getMethod("getKillingTests");
+      MutationResult.class.getMethod("getCoveringTests");
+      MutationResult.class.getMethod("getKillingTests");
       return true;
     } catch (NoSuchMethodException e) {
       // If the method does not exist, return false
-      return false;
-    } catch (ClassNotFoundException e) {
-      // If the class is not found, return false
       return false;
     }
   }
