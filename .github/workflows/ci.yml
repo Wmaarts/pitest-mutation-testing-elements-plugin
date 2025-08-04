@@ -22,7 +22,7 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
       - name: Run tests
-        run: mvn verify -B
+        run: mvn verify -B --no-transfer-progress
   mutation-testing:
     name: Mutation testing
     runs-on: ubuntu-latest
@@ -34,4 +34,4 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
       - name: Run mutation testing
-        run: mvn test-compile org.pitest:pitest-maven:mutationCoverage -B
+        run: mvn test-compile org.pitest:pitest-maven:mutationCoverage -B --no-transfer-progress

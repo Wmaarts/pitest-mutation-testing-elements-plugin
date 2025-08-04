@@ -243,15 +243,6 @@
               <publishingServerId>central</publishingServerId>
               <autoPublish>true</autoPublish>
             </configuration>
-            <executions>
-              <execution>
-                <id>default-deploy</id>
-                <goals>
-                  <goal>deploy</goal>
-                </goals>
-                <phase>deploy</phase>
-              </execution>
-            </executions>
           </plugin>
           <plugin>
             <artifactId>maven-deploy-plugin</artifactId>
