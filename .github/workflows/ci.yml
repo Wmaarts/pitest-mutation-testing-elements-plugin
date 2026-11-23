@@ -22,7 +22,8 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
       - name: Run tests
-        run: mvn verify -B --no-transfer-progress
+        # Skip spotless on JDK 17 because it is not compatible with the latest preset
+        run: mvn verify -B --no-transfer-progress ${{ matrix.java-version == '17' && '-Dspotless.check.skip=true' || '' }}
   mutation-testing:
     name: Mutation testing
     runs-on: ubuntu-latest

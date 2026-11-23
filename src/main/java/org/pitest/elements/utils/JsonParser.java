@@ -71,39 +71,37 @@ public class JsonParser {
       final Map<String, JsonTestFile> collectedJsonTestFiles, final MutationTestSummaryData data) {
 
     data.getResults()
-        .forEach(
-            mutationResult -> {
-              mutationResult
-                  .getCoveringTests()
-                  .forEach(
-                      test -> {
-                        if (!testNamesWithId.containsKey(test)) {
-                          // Mark the test class name as file name
-                          // class name is all the text before ".["
-                          String testFileName = "";
-                          if (test.contains(".[")) {
-                            testFileName = test.substring(0, test.indexOf(".["));
-                          }
+        .forEach(mutationResult -> {
+          mutationResult
+              .getCoveringTests()
+              .forEach(test -> {
+                if (!testNamesWithId.containsKey(test)) {
+                  // Mark the test class name as file name
+                  // class name is all the text before ".["
+                  String testFileName = "";
+                  if (test.contains(".[")) {
+                    testFileName = test.substring(0, test.indexOf(".["));
+                  }
 
-                          JsonTestFile testFile;
-                          if (collectedJsonTestFiles.get(testFileName) == null) {
-                            testFile = new JsonTestFile();
-                            collectedJsonTestFiles.put(testFileName, testFile);
-                          } else {
-                            // If the test file already exists, use it
-                            testFile = collectedJsonTestFiles.get(testFileName);
-                          }
+                  JsonTestFile testFile;
+                  if (collectedJsonTestFiles.get(testFileName) == null) {
+                    testFile = new JsonTestFile();
+                    collectedJsonTestFiles.put(testFileName, testFile);
+                  } else {
+                    // If the test file already exists, use it
+                    testFile = collectedJsonTestFiles.get(testFileName);
+                  }
 
-                          String testId = Integer.toString(testIdCounter.next());
-                          testNamesWithId.put(test, testId);
+                  String testId = Integer.toString(testIdCounter.next());
+                  testNamesWithId.put(test, testId);
 
-                          JsonTestDefinition jsonTestDefinition = new JsonTestDefinition();
-                          jsonTestDefinition.setId(testId);
-                          jsonTestDefinition.setName(test);
-                          testFile.addTest(jsonTestDefinition);
-                        }
-                      });
-            });
+                  JsonTestDefinition jsonTestDefinition = new JsonTestDefinition();
+                  jsonTestDefinition.setId(testId);
+                  jsonTestDefinition.setName(test);
+                  testFile.addTest(jsonTestDefinition);
+                }
+              });
+        });
   }
 
   private List<JsonMutant> getMutantsFromLines(
